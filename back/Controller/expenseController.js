@@ -1,4 +1,5 @@
 import { PrismaClient } from '@prisma/client';
+import {randomUUID} from 'crypto'
 const prisma = new PrismaClient();
 
 export const getAllUserExpense = async (req, res) => {
@@ -29,4 +30,31 @@ export const getAllUserExpense = async (req, res) => {
     }
 
     res.send(expenses);
+}
+
+export const createUserExpense = async (req, res) => {
+    const {amount, date, categoryId, description, type, startDate, endDate, receipt} = req.body;
+    const user = req.user;
+    try{
+        const newExpense = await prisma.expenses.create({
+            data: {
+                expense_id: randomUUID(),
+                user_id: user.user_id,
+                category_id: categoryId,
+                amount: amount,
+                created_at: date,
+                type: type,
+                start_date: startDate,
+                end_date: endDate,
+                description: description,
+                receipt: receipt
+            }
+        })
+        console.log("Creation");
+        res.send(newExpense)
+    } catch(err){
+        console.error(err);
+        res.send(err)
+    }
+   
 }

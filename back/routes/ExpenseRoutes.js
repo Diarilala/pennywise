@@ -1,5 +1,5 @@
 import express from 'express'
-import { getAllUserExpense } from '../Controller/expenseController.js';
+import { getAllUserExpense, createUserExpense } from '../Controller/expenseController.js';
 
 import { authenticateToken } from '../Middleware/authentMiddleware.js';
 
@@ -7,9 +7,7 @@ const router = express.Router();
 
 router.get("/" , authenticateToken ,  getAllUserExpense );
 
-router.post("/", (req, res) => {
-
-});
+router.post("/", authenticateToken, createUserExpense );
 
 router.get("/:id", (req, res) => {
 
