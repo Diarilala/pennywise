@@ -1,19 +1,26 @@
-app.get("/api/expenses", (req, res) => {
+import express from 'express'
+import { getAllUserExpense } from '../Controller/expenseController.js';
+
+import { authenticateToken } from '../Middleware/authentMiddleware.js';
+
+const router = express.Router();
+
+router.get("/" , authenticateToken ,  getAllUserExpense );
+
+router.post("/", (req, res) => {
 
 });
 
-app.post("/api/expenses", (req, res) => {
+router.get("/:id", (req, res) => {
 
 });
 
-app.get("/api/expense/:id", (req, res) => {
+router.put(":id", (req, res) => {
 
 });
 
-app.put("/api/expenses/:id", (req, res) => {
+router.delete("/:id", (req, res) => {
 
 });
 
-app.delete("/api/expenses/:id", (req, res) => {
-
-});
+export default router;

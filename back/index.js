@@ -1,25 +1,11 @@
 import express from 'express';
-import { PrismaClient } from '@prisma/client';
-const prisma = new PrismaClient();
+import expenseRoutes from './routes/ExpenseRoutes.js'
 
 const app = express();
+app.use(express.json());
 
-async function checkData(req, res, next) {
-    let users;
-    try{
-         users = await prisma.users.findMany();
-        console.log('Users:', users);
-        
-    }  catch(err){
-        console.error(err);        
-    }
-    res.send(users)
-    next()
-}
-
-app.get("/users", checkData);
+app.use('/expense', expenseRoutes )
 
 app.listen(3000, () => {
-    console.log("Listening to port 3000");
-    
+    console.log("Listening to port 3000"); 
 })
