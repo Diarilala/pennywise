@@ -5,14 +5,15 @@ const prisma = new PrismaClient();
 const app = express();
 
 async function checkData(req, res, next) {
+    let users;
     try{
-        const users = await prisma.user.findMany();
+         users = await prisma.users.findMany();
         console.log('Users:', users);
         
     }  catch(err){
         console.error(err);        
     }
-    res.send()
+    res.send(users)
     next()
 }
 
