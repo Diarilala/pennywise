@@ -58,3 +58,20 @@ export const createUserExpense = async (req, res) => {
     }
    
 }
+
+export const getExpenseById = async (req, res) => {
+    const expenseId = req.params.id;
+    console.log(expenseId);
+    
+    try{
+        const targetExpense = await prisma.expenses.findUnique({
+            where: {
+                expense_id : expenseId
+            }
+        })
+        console.log("ok");
+        res.send(targetExpense)
+    } catch (err) {
+        res.send(err);
+    }
+}

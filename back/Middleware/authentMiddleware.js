@@ -9,12 +9,12 @@ export const authenticateToken = (req, res, next) => {
     
     return res.status(401).json({ message: "No token provided" });
   }
-  console.log("ok");
+  console.log("Token found");
   
   jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
     if (err) return res.status(403).json({ message: "Invalid token" });
     req.user = user;
-    console.log("okffds");
+    console.log("Good token");
         next();
   });
 };
