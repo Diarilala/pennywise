@@ -75,3 +75,33 @@ export const getExpenseById = async (req, res) => {
         res.send(err);
     }
 }
+
+export const editExpense = async (req, res) => {
+    const id = req.params.id;
+    const {amount, date, categoryId, description, type, startDate, endDate, receipt} = req.body;
+    try{
+        console.log("rere");
+        
+        const updatedExpense = await prisma.expenses.update({
+            where: {
+                expense_id : id
+            },
+            data : {
+                amount: amount,
+                date: date,
+                category_id: categoryId,
+                description: description,
+                type: type,
+                start_date: startDate,
+                end_date: endDate,
+                receipts: receipt
+            }
+        })
+        console.log(updatedExpense);
+        
+        res.send(updatedExpense);
+    } catch (err) {
+        console.error(err);
+        res.send(err);
+    }
+}
