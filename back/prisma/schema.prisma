@@ -1,12 +1,5 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
-  output   = "../generated/prisma"
 }
 
 datasource db {
@@ -14,10 +7,64 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model User {
-  id        String   @id @default(cuid())
-  email     String   @unique
-  name      String?
-  password  String
-  createdAt DateTime @default(now())
+model categories {
+  category_id String     @id @db.Uuid
+  user_id     String     @db.Uuid
+  name        String     @db.VarChar(100)
+  created_at  DateTime?  @default(now()) @db.Timestamp(6)
+  users       users      @relation(fields: [user_id], references: [user_id], onDelete: Cascade, onUpdate: NoAction, map: "fk_category_user")
+  expenses    expenses[]
+
+  @@unique([user_id, name], map: "uq_category_name")
+}
+
+model expenses {
+  expense_id  String     @id @db.Uuid
+  user_id     String     @db.Uuid
+  category_id String     @db.Uuid
+  amount      Decimal    @db.Decimal(10, 2)
+  type        String     @db.VarChar(10)
+  date        DateTime?  @db.Date
+  start_date  DateTime?  @db.Date
+  end_date    DateTime?  @db.Date
+  description String?
+  created_at  DateTime?  @default(now()) @db.Timestamp(6)
+  categories  categories @relation(fields: [category_id], references: [category_id], onUpdate: NoAction, map: "fk_expense_category")
+  users       users      @relation(fields: [user_id], references: [user_id], onDelete: Cascade, onUpdate: NoAction, map: "fk_expense_user")
+  receipts    receipts?
+}
+
+model incomes {
+  income_id   String    @id @db.Uuid
+  user_id     String    @db.Uuid
+  amount      Decimal   @db.Decimal(10, 2)
+  date        DateTime  @db.Date
+  source      String    @db.VarChar(255)
+  description String?
+  created_at  DateTime? @default(now()) @db.Timestamp(6)
+  users       users     @relation(fields: [user_id], references: [user_id], onDelete: Cascade, onUpdate: NoAction, map: "fk_income_user")
+}
+
+model receipts {
+  receipt_id   String    @id @db.Uuid
+  expense_id   String    @unique @db.Uuid
+  storage_path String    @db.VarChar(255)
+  filename     String    @db.VarChar(255)
+  mime_type    String    @db.VarChar(50)
+  file_size    Int?
+  uploaded_at  DateTime? @default(now()) @db.Timestamp(6)
+  expenses     expenses  @relation(fields: [expense_id], references: [expense_id], onDelete: Cascade, onUpdate: NoAction, map: "fk_receipt_expense")
+}
+
+model users {
+  user_id       String       @id @db.Uuid
+  first_name  String
+  last_name   String
+  username   String    @unique
+  email         String       @unique @db.VarChar(255)
+  password_hash String       @db.VarChar(255)
+  created_at    DateTime?    @default(now()) @db.Timestamp(6)
+  categories    categories[]
+  expenses      expenses[]
+  incomes       incomes[]
 }
