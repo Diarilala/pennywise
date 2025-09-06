@@ -1,4 +1,5 @@
 import { PrismaClient } from '@prisma/client';
+import { error } from 'console';
 import {randomUUID} from 'crypto'
 const prisma = new PrismaClient();
 
@@ -103,5 +104,20 @@ export const editExpense = async (req, res) => {
     } catch (err) {
         console.error(err);
         res.send(err);
+    }
+}
+
+export const deleteExpense = async (req, res) => {
+    const id = req.params.id;
+    try {
+        const deletedExpense = await prisma.expenses.delete({
+            where : {
+                expense_id : id
+            }
+        })
+        res.send(deletedExpense)
+    } catch (err) {
+        console.error(err);
+        res.send(err)        
     }
 }

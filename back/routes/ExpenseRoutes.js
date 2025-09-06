@@ -1,5 +1,5 @@
 import express from 'express'
-import { getAllUserExpense, createUserExpense, getExpenseById, editExpense } from '../Controller/expenseController.js';
+import { getAllUserExpense, createUserExpense, getExpenseById, editExpense, deleteExpense } from '../Controller/expenseController.js';
 
 import { authenticateToken } from '../Middleware/authentMiddleware.js';
 
@@ -13,8 +13,6 @@ router.get("/:id", authenticateToken, getExpenseById);
 
 router.put("/:id", authenticateToken, editExpense );
 
-router.delete("/:id", (req, res) => {
-
-});
+router.delete("/:id", authenticateToken, deleteExpense);
 
 export default router;
