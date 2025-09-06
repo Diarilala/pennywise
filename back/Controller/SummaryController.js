@@ -1,210 +1,195 @@
 import { PrismaClient } from "@prisma/client";
+import express from 'express';
+
 const prisma = new PrismaClient();
-import { randomUUID } from 'crypto';
+const app = express();
 
-class SummaryController {
-    static async getUserSummary(userId, dateRange = {}) {
-        try {
-            const user = await prisma.users.findUnique({
-                where: { user_id: userId }
-            });
+app.get("/api/summary", async (req, res) => {
+    try {
+        const { userId, startDate, endDate } = req.query;
 
-            if (!user) {
-                throw new Error('Oh no, user not found');
-            }
+        if (!userId) {
+            return res.status(400).json({ error: "User ID is required" });
+        }
 
-            const dateFilter = {};
-            if (dateRange.startDate) {
-                dateFilter.gte = new Date(dateRange.startDate);
-            }
-            if (dateRange.endDate) {
-                dateFilter.lte = new Date(dateRange.endDate);
-            }
-
-            const totalExpenses = await prisma.expenses.aggregate({
-                where: {
-                    user_id: userId,
-                    date: Object.keys(dateFilter).length > 0 ? dateFilter : undefined
-                },
-                _sum: {
-                    amount: true
+        const whereClause = {
+            user_id: userId,
+            ...(startDate && endDate && {
+                date: {
+                    gte: new Date(startDate),
+                    lte: new Date(endDate)
                 }
-            });
+            })
+        };
 
-            const totalIncomes = await prisma.incomes.aggregate({
-                where: {
-                    user_id: userId,
-                    date: Object.keys(dateFilter).length > 0 ? dateFilter : undefined
-                },
-                _sum: {
-                    amount: true
-                }
-            });
-
-            const netBalance = (totalIncomes._sum.amount || 0) - (totalExpenses._sum.amount || 0);
-
-            const expensesByCategory = await prisma.expenses.groupBy({
-                by: ['category_id'],
-                where: {
-                    user_id: userId,
-                    date: Object.keys(dateFilter).length > 0 ? dateFilter : undefined
-                },
-                _sum: {
-                    amount: true
-                }
-            });
-
-            const recentExpenses = await prisma.expenses.findMany({
-                where: {
-                    user_id: userId,
-                    date: Object.keys(dateFilter).length > 0 ? dateFilter : undefined
-                },
-                orderBy: {
-                    date: 'desc'
-                },
+        const [expenses, incomes, recentExpenses, recentIncomes] = await Promise.all([
+            prisma.expenses.aggregate({
+                where: whereClause,
+                _sum: { amount: true }
+            }),
+            prisma.incomes.aggregate({
+                where: whereClause,
+                _sum: { amount: true }
+            }),
+            prisma.expenses.findMany({
+                where: whereClause,
+                orderBy: { date: 'desc' },
                 take: 5,
-                include: {
-                    categories: true
-                }
-            });
-
-            const recentIncomes = await prisma.incomes.findMany({
-                where: {
-                    user_id: userId,
-                    date: Object.keys(dateFilter).length > 0 ? dateFilter : undefined
-                },
-                orderBy: {
-                    date: 'desc'
-                },
+                include: { categories: true }
+            }),
+            prisma.incomes.findMany({
+                where: whereClause,
+                orderBy: { date: 'desc' },
                 take: 5
-            });
+            })
+        ]);
 
-            return {
-                user_id: userId,
-                period: dateRange,
-                totals: {
-                    income: totalIncomes._sum.amount || 0,
-                    expenses: totalExpenses._sum.amount || 0,
-                    netBalance: netBalance
-                },
-                expensesByCategory: expensesByCategory,
-                recentExpenses: recentExpenses,
-                recentIncomes: recentIncomes,
-                summaryDate: new Date()
-            };
+        const totalIncome = incomes._sum.amount || 0;
+        const totalExpenses = expenses._sum.amount || 0;
 
-        } catch (error) {
-            console.error('Error getting user summary:', error);
-            throw error;
-        }
-    }
-
-    static async getMonthlySummary(userId, year, month) {
-        try {
-            const startDate = new Date(year, month - 1, 1);
-            const endDate = new Date(year, month, 0, 23, 59, 59);
-
-            return await this.getUserSummary(userId, {
-                startDate: startDate,
-                endDate: endDate
-            });
-        } catch (error) {
-            console.error('Error getting monthly summary:', error);
-            throw error;
-        }
-    }
-
-    static async getYearlySummary(userId, year) {
-        try {
-            const startDate = new Date(year, 0, 1);
-            const endDate = new Date(year, 11, 31, 23, 59, 59);
-
-            return await this.getUserSummary(userId, {
-                startDate: startDate,
-                endDate: endDate
-            });
-        } catch (error) {
-            console.error('Error getting yearly summary:', error);
-            throw error;
-        }
-    }
-
-    static async getSummaryTrends(userId, period = 'monthly', periodsBack = 6) {
-        try {
-            const trends = [];
-            const currentDate = new Date();
-
-            for (let i = 0; i < periodsBack; i++) {
-                let summary;
-
-                if (period === 'monthly') {
-                    const date = new Date(currentDate);
-                    date.setMonth(date.getMonth() - i);
-                    summary = await this.getMonthlySummary(userId, date.getFullYear(), date.getMonth() + 1);
-                } else {
-                    const date = new Date(currentDate);
-                    date.setFullYear(date.getFullYear() - i);
-                    summary = await this.getYearlySummary(userId, date.getFullYear());
-                }
-
-                trends.push(summary);
+        res.json({
+            totals: {
+                income: totalIncome,
+                expenses: totalExpenses,
+                netBalance: totalIncome - totalExpenses
+            },
+            recentTransactions: {
+                expenses: recentExpenses,
+                incomes: recentIncomes
             }
+        });
 
-            return trends.reverse();
-        } catch (error) {
-            console.error('Error getting summary trends:', error);
-            throw error;
+    } catch (error) {
+        console.error("Summary error:", error);
+        res.status(500).json({ error: "Internal server error" });
+    }
+});
+
+
+app.get("/api/summary/monthly", async (req, res) => {
+    try {
+        const { userId, year, month } = req.query;
+
+        if (!userId || !year || !month) {
+            return res.status(400).json({ error: "User ID, year, and month are required" });
         }
+
+
+        const startDate = new Date(year, month - 1, 1);
+        const endDate = new Date(year, month, 0);
+
+        const whereClause = {
+            user_id: userId,
+            date: {
+                gte: startDate,
+                lte: endDate
+            }
+        };
+
+        const [expenses, incomes] = await Promise.all([
+            prisma.expenses.aggregate({
+                where: whereClause,
+                _sum: { amount: true }
+            }),
+            prisma.incomes.aggregate({
+                where: whereClause,
+                _sum: { amount: true }
+            })
+        ]);
+
+        const totalIncome = incomes._sum.amount || 0;
+        const totalExpenses = expenses._sum.amount || 0;
+
+        res.json({
+            period: { year, month },
+            totals: {
+                income: totalIncome,
+                expenses: totalExpenses,
+                netBalance: totalIncome - totalExpenses
+            }
+        });
+
+    } catch (error) {
+        console.error("Monthly summary error:", error);
+        res.status(500).json({ error: "Internal server error" });
     }
 
-    static async getCategoryBreakdown(userId, dateRange = {}) {
-        try {
-            const dateFilter = {};
-            if (dateRange.startDate) {
-                dateFilter.gte = new Date(dateRange.startDate);
-            }
-            if (dateRange.endDate) {
-                dateFilter.lte = new Date(dateRange.endDate);
-            }
 
-            const categoryExpenses = await prisma.expenses.groupBy({
-                by: ['category_id'],
+
+
+
+    app.get("/api/summary/alerts", async (req, res) => {
+        try {
+            const { userId } = req.query;
+            if (!userId) return res.status(400).json({ error: "User ID required" });
+
+            const today = new Date();
+            const monthStart = new Date(today.getFullYear(), today.getMonth(), 1);
+            const thirtyDaysAgo = new Date();
+            thirtyDaysAgo.setDate(today.getDate() - 30);
+
+            const [monthlyIncome, monthlyExpenses, recentExpenses] = await Promise.all([
+                prisma.incomes.aggregate({
+                    where: { user_id: userId, date: { gte: monthStart, lte: today } },
+                    _sum: { amount: true }
+                }),
+                prisma.expenses.aggregate({
+                    where: { user_id: userId, date: { gte: monthStart, lte: today } },
+                    _sum: { amount: true }
+                }),
+                prisma.expenses.aggregate({
+                    where: { user_id: userId, date: { gte: thirtyDaysAgo, lte: today } },
+                    _avg: { amount: true }
+                })
+            ]);
+
+            const income = Number(monthlyIncome._sum.amount) || 0;
+            const expenses = Number(monthlyExpenses._sum.amount) || 0;
+            const avgSpending = Number(recentExpenses._avg.amount) || 0;
+            const highSpendThreshold = avgSpending * 2;
+
+            const highSpending = await prisma.expenses.findMany({
                 where: {
                     user_id: userId,
-                    date: Object.keys(dateFilter).length > 0 ? dateFilter : undefined
+                    date: { gte: thirtyDaysAgo, lte: today },
+                    amount: { gt: highSpendThreshold }
                 },
-                _sum: {
-                    amount: true
-                },
-                _count: {
-                    expense_id: true
-                }
+                include: { categories: true },
+                orderBy: { amount: 'desc' },
+                take: 3
             });
 
-            const categories = await prisma.categories.findMany({
-                where: {
-                    user_id: userId
-                }
-            });
+            const alerts = [];
 
-            const categoryMap = {};
-            categories.forEach(cat => {
-                categoryMap[cat.category_id] = cat.name;
-            });
+            if (highSpending.length > 0) {
+                alerts.push({
+                    type: "high_spending",
+                    message: `${highSpending.length} unusual spending(s) detected`,
+                    items: highSpending
+                });
+            }
 
-            const breakdown = categoryExpenses.map(expense => ({
-                category_id: expense.category_id,
-                category_name: categoryMap[expense.category_id] || 'Unknown',
-                total_amount: expense._sum.amount,
-                transaction_count: expense._count.expense_id
-            }));
+            if (expenses > income * 0.7) {
+                alerts.push({
+                    type: "high_ratio",
+                    message: `Spent ${((expenses / income) * 100).toFixed(0)}% of monthly income`
+                });
+            }
 
-            return breakdown;
+            if (alerts.length === 0) {
+                alerts.push({
+                    type: "all_good",
+                    message: "No financial alerts"
+                });
+            }
+
+            res.json({ alerts });
+
         } catch (error) {
-            console.error('Error getting category breakdown:', error);
-            throw error;
+            res.status(500).json({ error: "Server error" });
         }
-    }
-}
+    });
 
-export default SummaryController;
+
+
+});
