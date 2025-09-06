@@ -22,5 +22,23 @@ export const createReceipt = async (req , res) => {
         console.error(err);
         res.status(400).send(err);
     }
+}
+
+export const getReceiptById = async (req , res) => {
+    console.log("rere");
     
+    const receiptId = req.params.id;
+    console.log(receiptId);
+    
+    try{
+        const receipt = await prisma.receipts.findUnique({
+            where: {
+                receipt_id : receiptId
+            }
+        })
+        res.send(receipt);
+    } catch(err) {
+        console.error(err);
+        res.send(err);
+    }
 }
