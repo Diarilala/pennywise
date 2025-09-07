@@ -17,7 +17,9 @@ app.get("/api/categories", async (req, res) => {
             where: {
                 user_id: user_id
             },
-
+            orderBy: {
+                name: 'asc'
+            }
         });
 
         res.json(categories);
