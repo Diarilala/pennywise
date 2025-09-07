@@ -2,6 +2,7 @@ import { PrismaClient } from '@prisma/client';
 const { v4: uuidv4 } = require('uuid');
 const { bcrypt} = require('bcrypt');
 const id = uuidv4();
+const jwt = require('jsonwebtoken');
 const prisma = new PrismaClient();
 
 export async function registerUser(req, res) {
@@ -58,5 +59,43 @@ export async function registerUser(req, res) {
         res.status(500).json({
             error: 'Internal Server Error',
         })
+    }
+}
+
+export async function loginUser(req, res) {
+    try {
+        const {username, password} = req.body;
+        if (!username || !password) {
+            res.status(400).json({
+                error: 'All fields are required'
+            });
+        }
+        const user = await prisma.users.findUnique({
+            where: {username}
+        });
+
+        if (!user || !(await bcrypt.compare(password, user.password_hash))) {
+            res.status(401).json({
+                error: 'Username or password is incorrect'
+            })
+        }
+        const token = jwt.sign({
+            userId: user.user_id,
+            email: user.email,
+            username: user.username
+        },
+            process.env.JWT_SECRET,
+            { expiresIn: '24h' }
+        );
+        res.cookie('token', token, {
+            httpOnly: true,
+            secure: true,
+            maxAge: 24 * 60 * 60 * 1000
+        });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({
+            error: 'Internal Server Error',
+        });
     }
 }

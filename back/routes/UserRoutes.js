@@ -1,12 +1,11 @@
 import express from 'express';
-const { v4: uuidv4 } = require('uuid');
-const { bcrypt, hash } = require('bcrypt');
+import {loginUser, registerUser} from "../Controller/UserController.js";
 
 const router = express.Router();
 
-router.get('/auth/login');
+router.post('/auth/login', loginUser);
 
-router.get('/auth/signup');
+router.post('/auth/signup', registerUser);
 
 router.get('/user/profile');
 
