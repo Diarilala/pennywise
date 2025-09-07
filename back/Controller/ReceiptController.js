@@ -1,4 +1,4 @@
-import { PrismaClient } from "@prisma/client";
+cd bimport { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient()
 import {randomUUID} from 'crypto'
 export const createReceipt = async (req , res) => {
