@@ -1,4 +1,5 @@
 import { PrismaClient } from '@prisma/client';
+import middleware from "../Middleware/authMiddleware.js";
 const { v4: uuidv4 } = require('uuid');
 const { bcrypt} = require('bcrypt');
 const id = uuidv4();
@@ -99,3 +100,22 @@ export async function loginUser(req, res) {
         });
     }
 }
+
+export async function displayProfile(req, res) {
+    try {
+        const user = await prisma.users.findUnique(
+            {
+                where: {user_id: req.user.user_id}
+            }
+        );
+        res.status(200).json({
+            user
+        })
+    } catch (err) {
+        console.error(err)
+        res.status(500).json({
+            error: 'Internal Server Error',
+        })
+    }
+}
+
