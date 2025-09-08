@@ -72,7 +72,7 @@ export async function loginUser(req, res) {
             });
         }
         const user = await prisma.users.findUnique({
-            where: {username}
+            where: {username: username}
         });
 
         if (!user || !(await bcrypt.compare(password, user.password_hash))) {
@@ -118,4 +118,3 @@ export async function displayProfile(req, res) {
         })
     }
 }
-
