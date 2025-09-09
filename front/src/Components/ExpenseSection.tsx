@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import Expense from "./Expense";
+import ExpenseRendering from "./ExpenseRendering";
 
 interface ExpenseProp {
     expense_id : string,
@@ -29,7 +29,7 @@ const ExpenseSection = () => {
                 }
             } )
             const data = await thisUserExpenses.json();
-            setExpenses(data);
+            //setExpenses(data);
             console.log(data);
             
         }
@@ -38,9 +38,7 @@ const ExpenseSection = () => {
 
     return (
         <>
-            {expenses.map((el, index) => (
-                <Expense key={el.expense_id} expense={el}/>
-            ))}
+            <ExpenseRendering expenses={expenses} />
         </>
     )
 

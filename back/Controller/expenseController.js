@@ -24,14 +24,14 @@ export const getAllUserExpense = async (req, res) => {
             user_id: user.user
         };
         if (start && end) {
-            whereClause.created_at = {
+            whereClause.date = {
                 lt: end,
                 gt: start
             };
         } else if (start) {
-            whereClause.created_at = { gt: start };
+            whereClause.date = { gte: start };
         } else if (end) {
-            whereClause.created_at = { lt: end };
+            whereClause.date = { lt: end };
         }
         if (type) {
             whereClause.type = type;
@@ -61,7 +61,8 @@ export const createUserExpense = async (req, res) => {
                 user_id: user.user_id,
                 category_id: categoryId,
                 amount: amount,
-                created_at: date,
+                date: date,
+                created_at: new Date().toISOString(),
                 type: type,
                 start_date: startDate,
                 end_date: endDate,

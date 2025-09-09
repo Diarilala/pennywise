@@ -1,10 +1,15 @@
-const Expense = ({expense}) => {
-    return(
-        <div className="p-4 border-1 border-amber-600 w-1/8">
-            <h1>{expense.description}</h1>
-            <h2>{expense.amount}</h2>
-            <h3>{expense.date}</h3>
-        </div>
-    )
+interface ExpenseProp {
+    expense_id : string,
+    user_id : string,
+    category_id: string,
+    amount : number,
+    type : string,
+    date : string,
+    start_date : string,
+    end_date : string,
+    description : string
 }
-export default Expense
+
+const Expense = ({expense} : {expense : ExpenseProp}) => {
+    
+}
