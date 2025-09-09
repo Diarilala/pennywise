@@ -1,35 +1,53 @@
 import { PrismaClient } from '@prisma/client';
-import { error } from 'console';
+import { error, log } from 'console';
 import {randomUUID} from 'crypto'
 const prisma = new PrismaClient();
 
 export const getAllUserExpense = async (req, res) => {
-    const {start, end, category, type} = req.query;
-    const user = req.user
-    
+    const { start, end, category, type } = req.query;
+    const user = req.user;
     let expenses;
     try {
-        const category_res = await prisma.categories.findFirst({
-        where: {
-            name: category
-        }
-        })
-         const category_id = category_res.category_id;
-        expenses = await prisma.expenses.findMany({
-            where: {
-               user_id: user.user,
-                created_at: {
-                    lt: end,
-                    gt: start
-                },
-                type: type,
-                category_id: category_id
+        let category_id;
+        if (category) {
+            const category_res = await prisma.categories.findFirst({
+                where: { name: category }
+            });
+            if (category_res) {
+                category_id = category_res.category_id;
+            } else {
+                return res.send([]);
             }
-        })        
-    } catch (error) {
-        res.send(error)
-    }
+        }
 
+        const whereClause = {
+            user_id: user.user
+        };
+        if (start && end) {
+            whereClause.created_at = {
+                lt: end,
+                gt: start
+            };
+        } else if (start) {
+            whereClause.created_at = { gt: start };
+        } else if (end) {
+            whereClause.created_at = { lt: end };
+        }
+        if (type) {
+            whereClause.type = type;
+        }
+        if (category_id) {
+            whereClause.category_id = category_id;
+        }
+
+        expenses = await prisma.expenses.findMany({
+            where: whereClause
+        });
+    } catch (error) {
+        res.send(error);
+        return;
+    }
+    console.log(expenses.length);
     res.send(expenses);
 }
 

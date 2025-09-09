@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import Expense from "./Expense";
 
-interface Expense {
+interface ExpenseProp {
     expense_id : string,
     user_id : string,
     category_id: string,
@@ -14,7 +14,7 @@ interface Expense {
 }
 const ExpenseSection = () => {
 
-    const [ expenses, setExpenses ] = useState<Expense[]>([]);
+    const [ expenses, setExpenses ] = useState<ExpenseProp[]>([]);
 
     useEffect(() => {
         const fetchExpenses = async () => {
@@ -34,12 +34,12 @@ const ExpenseSection = () => {
             
         }
         fetchExpenses();
-    }, [expenses]);
+    }, []);
 
     return (
         <>
             {expenses.map((el, index) => (
-                <li key={index}>{el}</li>
+                <Expense key={el.expense_id} expense={el}/>
             ))}
         </>
     )
