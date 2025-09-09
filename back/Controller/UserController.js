@@ -1,5 +1,4 @@
 import { PrismaClient } from '@prisma/client';
-import middleware from "../Middleware/authMiddleware.js";
 const { v4: uuidv4 } = require('uuid');
 const { bcrypt} = require('bcrypt');
 const id = uuidv4();

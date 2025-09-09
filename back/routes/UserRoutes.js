@@ -10,6 +10,6 @@ router.post('/auth/login', loginUser);
 
 router.post('/auth/signup', registerUser);
 
-router.get('/user/profile', displayProfile);
+router.get('/user/profile',authMiddleware , displayProfile);
 
 export default router;

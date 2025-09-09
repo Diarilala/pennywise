@@ -1,25 +1,24 @@
 import { PrismaClient } from "@prisma/client";
-import req from "express/lib/request.js";
-import res from "express/lib/response.js";
-import middleware from "../Middleware/authMiddleware.js";
 
 const prisma = new PrismaClient();
 
-export async function updateCategory(categoryId, updatedCategory) {
+export async function updateCategory(categoryId, userId, updatedCategory) {
     try {
+        const { created_at, user_id, category_id, ...updatedData } = updatedCategory;
         const category = await prisma.categories.findUnique(
             {
                 where: {
                     category_id: categoryId,
-                    user_id: middleware(req.user.user_id)
+                    user_id: userId
                 }
             }
         );
         if (!category) {
             console.error("Category not found");
-            res.status(404).json({
-                message: 'Category not found'
-            })
+            return {
+                status: 404,
+                message: "Category not found"
+            }
         }
         const updatedCategory = await prisma.categories.update(
             {
@@ -27,9 +26,9 @@ export async function updateCategory(categoryId, updatedCategory) {
                     category_id: categoryId,
                 },
                 data: {
-                    user_id: req.user.user_id,
+                    user_id: userId,
                     category_id: categoryId,
-                    category: updateCategory(),
+                    category: updatedData
                 }
             }
         );
@@ -41,38 +40,41 @@ export async function updateCategory(categoryId, updatedCategory) {
     }
 }
 
-export async function deleteCategory(categoryId) {
+export async function deleteCategory(categoryId, userId) {
     try {
         const category = await prisma.categories.findUnique(
             {
                 where: {
                     category_id: categoryId,
-                    user_id: middleware(req.user.user_id)
+                    user_id: userId
                 }
             }
         );
         if (!category) {
             console.error("Category not found");
-            res.status(404).json({
-                message: 'Category not found'
-            })
+            return {
+                status: 404,
+                message: "Category not found"
+            }
         }
 
         const deleteCategory = await prisma.categories.delete(
             {
                 where: {
                     category_id: categoryId,
-                    user_id: middleware(req.user.user_id)
+                    user_id: userId
                 }
             }
         )
-        res.status(200).json({
-            message: 'Category deleted successfully'
-        })
+        return {
+            status: 200,
+            message: "Deleted Successfully"
+        }
     }   catch (error) {
         console.error(error);
-        res.status(500).json({
-            error: 'Internal Server Error',
-        })
+        return {
+            status: 500,
+            message: "Internal Server Error"
+        }
     }
 }
