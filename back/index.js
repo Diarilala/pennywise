@@ -1,11 +1,19 @@
 import express from 'express';
 import expenseRoutes from './routes/ExpenseRoutes.js'
 import receiptRoutes from './routes/ReceiptRoutes.js'
+<<<<<<< HEAD
 import userRoutes from './routes/UserRoutes.js'
 import categoryRoutes from './routes/CategoryRoutes.js'
 import cors from 'cors'
 import {PrismaClient} from '@prisma/client';
 const prisma = new PrismaClient();
+=======
+import cors from 'cors'
+import {PrismaClient} from '@prisma/client';
+const prisma = new PrismaClient();
+import userRoutes from './routes/UserRoutes.js'
+import categoryRoutes from './routes/CategoryRoutes.js'
+>>>>>>> 6e5c0d25f08c2e1bdd838258d1210c0fb0ab24aa
 
 const app = express();
 
@@ -15,6 +23,10 @@ app.use(express.json());
 
 
 app.use('/api/expense', expenseRoutes )
+<<<<<<< HEAD
+=======
+
+>>>>>>> 6e5c0d25f08c2e1bdd838258d1210c0fb0ab24aa
 
 app.use('/receipt', receiptRoutes);
 app.get("/api/categories", async (req, res) => {
