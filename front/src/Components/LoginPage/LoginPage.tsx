@@ -1,8 +1,11 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const LoginPage = () => {
     const [username, setUserName] = useState("");
     const [password, setPassword] = useState("");
+
+    const navigate = useNavigate()
 
     useEffect(() => {
         console.log(`Username: ${username} | Password: ${password}`);
@@ -18,7 +21,7 @@ const LoginPage = () => {
             password: password
         }
         try{
-            const loginRequest = await fetch('http://localhost:3000/auth/login', {
+            const loginRequest = await fetch('http://localhost:3000/api/auth/login', {
                 method: "POST",
                 body: JSON.stringify(userCredentials)
             })
@@ -29,7 +32,6 @@ const LoginPage = () => {
         
     }
 
-    
 
     return (
         <>
@@ -43,7 +45,7 @@ const LoginPage = () => {
                 </label>
                 <div className="flex gap-5">
                     <button onClick={handleLogin} type="submit" className="bg-blue-200 p-2 rounded-2xl">Login</button>
-                    <button className="bg-green-200 p-2 rounded-2xl">Sign up</button>
+                    <button onClick={() => navigate("/signup")} className="bg-green-200 p-2 rounded-2xl">Sign up</button>
                 </div>
             </div>
         </>

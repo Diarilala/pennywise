@@ -14,11 +14,9 @@ export async function registerUser(req, res) {
             })
         }
 
-        const existingUser = prisma.users.findFirst({
+        const existingUser = await prisma.users.findFirst({
             where: {
-                OR: [
-                    {email: email},
-                ]
+                email: email
             }
         });
 
@@ -30,14 +28,16 @@ export async function registerUser(req, res) {
 
         const saltRounds = 10;
         const hashedPassword = await bcrypt.hash(password, saltRounds);
-
+        console.log(hashedPassword);
+        
         const newUser = await prisma.users.create({
             data: {
-                user_id: id,
+                user_id: uuidv4(),
                 first_name: firstName,
                 last_name: lastName,
                 email: email,
-                password: hashedPassword,
+                password_hash: hashedPassword,
+                username: username,
                 categories: {
                     create: []
                 },
