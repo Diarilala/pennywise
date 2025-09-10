@@ -62,8 +62,8 @@ const ExpenseRendering = () => {
     return (
         <>
             {[...expensesDates].map(date => (
-                <div key={date}>
-                <p>{date}</p>
+                <div key={date} className="w-full">
+                <p className="underline p-0.5">{date}</p>
                 {expenses
                     .filter(expense => expense.date && expense.date.includes(date))
                     .map(expense => (

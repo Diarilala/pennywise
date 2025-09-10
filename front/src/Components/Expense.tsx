@@ -18,7 +18,7 @@ const Expense = ({expense} : {expense : ExpenseProp}) => {
         setExpenseDate(expense.date.split("T")[0]);
     }, [])
     return (
-        <div className="border-1 p-2 w-1/3 flex justify-between items-center">
+        <div className="border-1 p-2 w-1/4 flex justify-between items-center">
             <div className="flex flex-col gap-2">
                 <h1 className="font-medium">Categories ???</h1>
                 {expense.type == 'recurring' && <p>Recurring expense</p>}
