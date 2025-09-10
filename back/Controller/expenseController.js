@@ -67,8 +67,8 @@ export const createUserExpense = async (req, res) => {
                 date: date,
                 created_at: new Date().toISOString(),
                 type: type,
-                start_date: startDate.trim() == ""? date :  startDate,
-                end_date: endDate.trim()== '' ? date :endDate ,
+                start_date: startDate== ""? date :  startDate,
+                end_date: endDate== '' ? date :endDate ,
                 description: description,
                 receipt: receipt
             }
