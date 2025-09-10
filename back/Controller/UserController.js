@@ -54,6 +54,7 @@ export async function registerUser(req, res) {
                 incomes: true
             }
         });
+        res.send(newUser)
     }   catch (error) {
         console.error(error);
         res.status(500).json({
