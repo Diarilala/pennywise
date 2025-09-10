@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-
+import Expense from "./Expense";
 interface ExpenseProp {
     expense_id : string,
     user_id : string,
@@ -12,12 +12,10 @@ interface ExpenseProp {
     description : string
 }
 
-const ExpenseRendering = ({expense} : any) => {
+const ExpenseRendering = () => {
     const [todayExpense, setTodayExpense] = useState<ExpenseProp[]>([]);
 
     useEffect(() => {
-        
-        
         const fetchingTodaysExpense = async () => {
             let todayDateInIso = new Date().toISOString().split("T")[0];
             todayDateInIso += "T00:00:00Z";
@@ -34,14 +32,18 @@ const ExpenseRendering = ({expense} : any) => {
             )
             const expenses_data = await expenses_raw.json();
             setTodayExpense(expenses_data);
-            console.log(expenses_data);
         }
         fetchingTodaysExpense()
         
     }, [])
     
     return (
-        <p>This is a test</p>
+        <>
+            <h1>Today's expense</h1>
+            {todayExpense.map((el) => (
+                <Expense key={el.expense_id} expense={el} />
+            ))}
+        </>
     )
 }
 
