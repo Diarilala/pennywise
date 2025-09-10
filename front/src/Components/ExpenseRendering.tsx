@@ -58,7 +58,7 @@ const ExpenseRendering = () => {
             setExpensesDates(new Set(dates))
         })();
        
-    }, [])
+    }, [expenses.length])
     return (
         <>
             {[...expensesDates].map(date => (

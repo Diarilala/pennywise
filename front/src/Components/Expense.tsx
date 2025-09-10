@@ -14,7 +14,23 @@ interface ExpenseProp {
 }
 
 const Expense = ({expense} : {expense : ExpenseProp}) => {
+
+    const handleDeletion = async () => {
+        const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNTUwZTg0MDAtZTI5Yi00MWQ0LWE3MTYtNDQ2NjU1NDQwMDAwIiwiaWF0IjoxNzU3MzY2NTQ1fQ.XBG6M9ge7k5Py87pJ3i7bEbkaNLI5N2-fBdGpXFubdo";
+        const deletedExepense = await fetch(`http://localhost:3000/api/expense/${expense.expense_id}`, {
+            method: "DELETE",
+            headers: { 
+                "Authorization" : `Bearer ${token}`
+            }
+        })
+        const data = await deletedExepense.json();
+        setDeleteMode(false);
+         window.location.reload();
+        console.log(data);
+    }
+
     const [expenseDate, setExpenseDate] = useState("");
+    const [deleteMode, setDeleteMode] = useState(false)
     useEffect(() => {
         setExpenseDate(expense.date.split("T")[0]);
     }, [])
@@ -28,6 +44,23 @@ const Expense = ({expense} : {expense : ExpenseProp}) => {
             <div>
                 <p className="font-bold">-{expense.amount}</p>
                 <Link to={`${expense.expense_id}/edit`}>Edit</Link>
+                <button onClick={() => setDeleteMode(true)}>Delete</button>
+                {
+                    deleteMode && (
+                        <div className="absolute left-5/12">
+                            <p>{expense.description}</p>
+                            <p>Do you really wanna delete that task</p>
+                            <div>
+                                <button onClick={ handleDeletion }>
+                                    Yes, delete this task
+                                </button>
+                                <button onClick={() => setDeleteMode(false)}>
+                                    No, keep this task
+                                </button >
+                            </div>
+                        </div>
+                    )
+                }
             </div>
         </div>
     )
