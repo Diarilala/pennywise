@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 
 interface ExpenseProp {
     expense_id : string,
@@ -26,6 +27,7 @@ const Expense = ({expense} : {expense : ExpenseProp}) => {
             </div> 
             <div>
                 <p className="font-bold">-{expense.amount}</p>
+                <Link to={`${expense.expense_id}/edit`}>Edit</Link>
             </div>
         </div>
     )

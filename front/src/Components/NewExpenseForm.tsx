@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react"
+import { useNavigate } from "react-router-dom";
 
 const getCategories = async () => {
     
@@ -35,6 +36,8 @@ const NewExpenseForm = () => {
     const [categories, setCategories] = useState<Category[]>([])
     const [categoryId, setCategoryId] = useState("")
 
+    const navigate = useNavigate();
+
     useEffect(() => {
         (async () => {
             const data = await getCategories();
@@ -58,8 +61,8 @@ const NewExpenseForm = () => {
             amount : amount,
             date : date+"T"+hour+":00.000Z",
             type: type,
-            startDate: startDate+"T"+hour+":00.000Z",
-            endDate: endDate+"T"+hour+":00.000Z",
+            startDate: type == "one-time" ? "" : startDate+"T"+hour+":00.000Z",
+            endDate: type == "one-time" ? "" : endDate+"T"+hour+":00.000Z",
             description: description,
         }
         try{

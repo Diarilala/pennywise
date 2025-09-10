@@ -2,6 +2,7 @@ import './App.css'
 import ExpenseSection from './Components/ExpenseSection'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import CreateExpenseSection from './Components/CreateExpenseSection'
+import EditExpense from './Components/EditExpense'
 
 function App() {
 
@@ -12,6 +13,7 @@ function App() {
         <Route path='/' element ={<ExpenseSection />}>
         </Route>  
         <Route path='create' element={<CreateExpenseSection />} />
+        <Route path=':id/edit'element={<EditExpense /> }/>
       </Routes>
     </BrowserRouter>
     </>
