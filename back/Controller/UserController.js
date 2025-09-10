@@ -1,9 +1,13 @@
 import { PrismaClient } from '@prisma/client';
-const { v4: uuidv4 } = require('uuid');
-const { bcrypt} = require('bcrypt');
-const id = uuidv4();
-const jwt = require('jsonwebtoken');
+import crypto from 'crypto';
+import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
 const prisma = new PrismaClient();
+
+function uuidv4() {
+    return crypto.randomUUID()
+}
+const id = uuidv4();
 
 export async function registerUser(req, res) {
     try {
@@ -14,10 +18,11 @@ export async function registerUser(req, res) {
             })
         }
 
-        const existingUser = prisma.users.findFirst({
+        const existingUser = await prisma.users.findFirst({
             where: {
                 OR: [
-                    {email: email},
+                    { email: email},
+                    {username: username}
                 ]
             }
         });
@@ -36,8 +41,9 @@ export async function registerUser(req, res) {
                 user_id: id,
                 first_name: firstName,
                 last_name: lastName,
+                username: username,
                 email: email,
-                password: hashedPassword,
+                password_hash: hashedPassword,
                 categories: {
                     create: []
                 },
@@ -54,9 +60,18 @@ export async function registerUser(req, res) {
                 incomes: true
             }
         });
+
+        const { password: _, ...userWithoutPassword } = newUser;
+
+        res.status(201).json({
+            success: true,
+            message: 'User created successfully',
+            user: userWithoutPassword
+        });
     }   catch (error) {
         console.error(error);
         res.status(500).json({
+            success: false,
             error: 'Internal Server Error',
         })
     }

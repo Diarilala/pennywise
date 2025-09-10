@@ -1,6 +1,7 @@
 import express from 'express';
 import middleware from "../Middleware/authMiddleware.js";
-import {deleteCategory, updateCategory} from "../Controller/CategoryController.js";
+import {deleteCategory} from "../Controller/CategoryController.js";
+import {updateCategory} from "../Controller/CategoryController.js";
 import authMiddleware from "../Middleware/authMiddleware.js";
 
 const router = express.Router();
