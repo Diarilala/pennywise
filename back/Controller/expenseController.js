@@ -1,5 +1,4 @@
 import { PrismaClient } from '@prisma/client';
-import { error, log } from 'console';
 import {randomUUID} from 'crypto'
 const prisma = new PrismaClient();
 

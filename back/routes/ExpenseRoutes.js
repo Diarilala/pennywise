@@ -1,18 +1,21 @@
 import express from 'express'
+
 import { getAllUserExpense, createUserExpense, getExpenseById, editExpense, deleteExpense } from '../Controller/expenseController.js';
 
-import { authenticateToken } from '../Middleware/authentMiddleware.js';
+import middleware from '../Middleware/authMiddleware.js';
 
 const router = express.Router();
 
-router.get("/" , authenticateToken ,  getAllUserExpense );
+router.use(middleware)
 
-router.post("/", authenticateToken, createUserExpense );
+router.get("/", getAllUserExpense);
 
-router.get("/:id", authenticateToken, getExpenseById);
+router.post("/", createUserExpense);
 
-router.put("/:id", authenticateToken, editExpense );
+router.get("/:id", getExpenseById);
 
-router.delete("/:id", authenticateToken, deleteExpense);
+router.put("/:id", editExpense );
+
+router.delete("/:id", deleteExpense);
 
 export default router;

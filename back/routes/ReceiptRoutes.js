@@ -1,11 +1,11 @@
 import express from 'express'
-import { authenticateToken } from '../Middleware/authentMiddleware.js';
 import { createReceipt, getReceiptById } from '../Controller/ReceiptController.js';
-
+import middleware from '../Middleware/authMiddleware.js';
 const router = express.Router();
 
-router.get('/:id', authenticateToken, getReceiptById);
+router.use(middleware)
+router.get('/:id', getReceiptById);
 
-router.post('/', authenticateToken, createReceipt);
+router.post('/', createReceipt);
 
 export default router;

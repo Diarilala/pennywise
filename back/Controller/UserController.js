@@ -1,8 +1,8 @@
 import { PrismaClient } from '@prisma/client';
-const { v4: uuidv4 } = require('uuid');
-const { bcrypt} = require('bcrypt');
+import { v4 as uuidv4 } from 'uuid';
+import bcrypt from 'bcrypt';
 const id = uuidv4();
-const jwt = require('jsonwebtoken');
+import jwt from 'jsonwebtoken';
 const prisma = new PrismaClient();
 
 export async function registerUser(req, res) {
