@@ -59,6 +59,7 @@ const EditExpense = () => {
             }) 
             const data = await response.json();
             console.log(data);
+            navigate("/")
             } catch(err){
             console.error(err);
             
