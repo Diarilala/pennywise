@@ -41,7 +41,10 @@ export const getAllUserExpense = async (req, res) => {
         }
 
         expenses = await prisma.expenses.findMany({
-            where: whereClause
+            where: whereClause,
+            orderBy:{
+                date: 'desc'
+            }
         });
     } catch (error) {
         res.send(error);
@@ -64,8 +67,8 @@ export const createUserExpense = async (req, res) => {
                 date: date,
                 created_at: new Date().toISOString(),
                 type: type,
-                start_date: startDate,
-                end_date: endDate,
+                start_date: startDate.trim() == ""? date :  startDate,
+                end_date: endDate.trim()== '' ? date :endDate ,
                 description: description,
                 receipt: receipt
             }
