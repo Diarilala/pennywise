@@ -1,12 +1,47 @@
 import { PrismaClient } from "@prisma/client";
-
-const { PrismaClient } = require('@prisma/client');
 const express = require("express");
 const prisma = new PrismaClient();
-
-export async function updateCategory(categoryId, userId, updatedCategory) {
 const app = express();
 const PORT = process.env.PORT ;
+
+export async function updateCategory(categoryId, userId, updatedCategory) {
+    try {
+        const { created_at, user_id, category_id, ...updatedData } = updatedCategory;
+        const category = await prisma.categories.findUnique(
+            {
+                where: {
+                    category_id: categoryId,
+                    user_id: userId
+                }
+            }
+        );
+        if (!category) {
+            console.error("Category not found");
+            return {
+                status: 404,
+                message: "Category not found"
+            }
+        }
+        const updatedCategory = await prisma.categories.update(
+            {
+                where: {
+                    category_id: categoryId,
+                },
+                data: {
+                    user_id: userId,
+                    category_id: categoryId,
+                    category: updatedData
+                }
+            }
+        );
+    }catch (error) {
+        console.error(error);
+        return {
+            status: 500,
+            message: 'Internal Server Error'
+    }
+}
+
 
 app.get("/api/categories", async (req, res) => {
     try {
@@ -44,7 +79,7 @@ app.get("/api/categories", async (req, res) => {
             error: 'Internal Server Error',
         })
     }
-}
+});
         const { user_id } = req.query;
 
         if (!user_id) {
