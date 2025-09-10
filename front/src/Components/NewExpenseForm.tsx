@@ -58,13 +58,12 @@ const NewExpenseForm = () => {
             amount : amount,
             date : date+"T"+hour+":00.000Z",
             type: type,
-            startDate: startDate,
-            endDate: endDate,
+            startDate: startDate+"T"+hour+":00.000Z",
+            endDate: endDate+"T"+hour+":00.000Z",
             description: description,
         }
         try{
             console.log(newExpense);
-            
             (async () => {
                 const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNTUwZTg0MDAtZTI5Yi00MWQ0LWE3MTYtNDQ2NjU1NDQwMDAwIiwiaWF0IjoxNzU3MzY2NTQ1fQ.XBG6M9ge7k5Py87pJ3i7bEbkaNLI5N2-fBdGpXFubdo"
                 await fetch(`http://localhost:3000/api/expense`, {
