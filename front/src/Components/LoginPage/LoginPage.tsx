@@ -7,10 +7,6 @@ const LoginPage = () => {
 
     const navigate = useNavigate()
 
-    useEffect(() => {
-        console.log(`Username: ${username} | Password: ${password}`);
-    }, [username, password]);
-
     const handleLogin = async () => {
         if (username.trim() == "") {
             alert("The 'Username' field cannot be empty");
@@ -20,12 +16,28 @@ const LoginPage = () => {
             username: username,
             password: password
         }
+        console.log(userCredentials);
+        
         try{
             const loginRequest = await fetch('http://localhost:3000/api/auth/login', {
                 method: "POST",
+                headers: {
+                    'Content-type' : 'application/json'
+                },
+                credentials: "include",
                 body: JSON.stringify(userCredentials)
             })
-            console.log(loginRequest);
+            console.log("rere");
+            
+            if(!loginRequest.ok){
+                throw new Error("Error while loggin in");
+                
+            }
+            const data = await loginRequest.json()
+            console.log(data);
+            console.log("attemp");
+            
+            navigate('/dashboard')
         } catch(err) {
             console.error(err);
         }
@@ -44,7 +56,7 @@ const LoginPage = () => {
                     <input required value={password} onChange={(e) => setPassword(e.target.value)} type="password" name="password" id="password"/>
                 </label>
                 <div className="flex gap-5">
-                    <button onClick={handleLogin} type="submit" className="bg-blue-200 p-2 rounded-2xl">Login</button>
+                    <button onClick={async () => await handleLogin()} type="submit" className="bg-blue-200 p-2 rounded-2xl">Login</button>
                     <button onClick={() => navigate("/signup")} className="bg-green-200 p-2 rounded-2xl">Sign up</button>
                 </div>
             </div>

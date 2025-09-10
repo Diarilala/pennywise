@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import {  useState } from "react";
 import { useNavigate } from "react-router-dom"
 
 const SignupPage = () => {
@@ -10,13 +10,6 @@ const SignupPage = () => {
     const [password, setPassword] = useState("");
 
     const navigate = useNavigate();
-
-    /*
-    useEffect(() => {
-        console.log(`first: ${firstname}| last: ${lastname} | username: ${username} | email: ${email} | password: ${password}`);
-        
-    }, [firstname, lastname, username, password, email]);
-    */
 
     const handleSignup = async() => {
         try{

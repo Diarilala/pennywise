@@ -64,8 +64,12 @@ export async function registerUser(req, res) {
 }
 
 export async function loginUser(req, res) {
+    console.log("Logging in ");
+    
     try {
         const {username, password} = req.body;
+        console.log("part1");
+        
         if (!username || !password) {
             res.status(400).json({
                 error: 'All fields are required'
@@ -74,12 +78,15 @@ export async function loginUser(req, res) {
         const user = await prisma.users.findUnique({
             where: {username: username}
         });
-
+            //console.log(user);
+            
         if (!user || !(await bcrypt.compare(password, user.password_hash))) {
             res.status(401).json({
                 error: 'Username or password is incorrect'
             })
         }
+        console.log("correct");
+        
         const token = jwt.sign({
             userId: user.user_id,
             email: user.email,
@@ -90,8 +97,18 @@ export async function loginUser(req, res) {
         );
         res.cookie('token', token, {
             httpOnly: true,
-            secure: true,
+            secure: false,
             maxAge: 24 * 60 * 60 * 1000
+        });
+        console.log("end");
+        
+      res.status(200).json({
+            message: 'Login successful',
+            user: {
+                userId: user.user_id,
+                username: user.username,
+                email: user.email
+            }
         });
     } catch (err) {
         console.error(err);

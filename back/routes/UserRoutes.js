@@ -6,11 +6,11 @@ const router = express.Router();
 
 router.post('/auth/signup', registerUser);
 
-router.use(authMiddleware);
 
 router.post('/auth/login', loginUser);
+router.use(authMiddleware);
 
 
-router.get('/user/profile',authMiddleware , displayProfile);
+router.get('/user/profile', displayProfile);
 
 export default router;
