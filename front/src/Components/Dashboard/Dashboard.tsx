@@ -1,6 +1,15 @@
+import { Link } from "react-router-dom";
+
 const Dashboard = () => {
     return (
-        <p>Welcome</p>
+        <>
+            <div className="w-1/4">
+                <Link to='/categories'>Categories</Link>
+            </div>
+            <div>
+
+            </div>
+        </>
     )
 }
 
