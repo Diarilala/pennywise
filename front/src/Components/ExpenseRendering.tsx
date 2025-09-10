@@ -30,22 +30,17 @@ async function getExpensesDates(){
             dates.add(newDateFormat);
         }
     };
-    console.log(dates);
-    
     return dates;
 }
 
 const ExpenseRendering = () => {
-    const [todayExpense, setTodayExpense] = useState<ExpenseProp[]>([]);
-
+    const [expenses, setExpenses] = useState<ExpenseProp[]>([]);
+    const [expensesDates, setExpensesDates] = useState<Set<string>>(new Set())
     useEffect(() => {
-        const fetchingTodaysExpense = async () => {
-            let todayDateInIso = new Date().toISOString().split("T")[0];
-            todayDateInIso += "T00:00:00Z";
-            console.log(todayDateInIso);
-            
+
+        const fetchExpenses = async() => {
             const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNTUwZTg0MDAtZTI5Yi00MWQ0LWE3MTYtNDQ2NjU1NDQwMDAwIiwiaWF0IjoxNzU3MzY2NTQ1fQ.XBG6M9ge7k5Py87pJ3i7bEbkaNLI5N2-fBdGpXFubdo';
-            const expenses_raw = await fetch(`http://localhost:3000/api/expense?start=${todayDateInIso}`, 
+            const expenses_raw = await fetch(`http://localhost:3000/api/expense`, 
                 {
                     method: "GET",
                     headers:{
@@ -54,23 +49,27 @@ const ExpenseRendering = () => {
                 }
             )
             const expenses_data = await expenses_raw.json();
-            setTodayExpense(expenses_data);
+            setExpenses(expenses_data);
         }
-        fetchingTodaysExpense()
-        getExpensesDates()
-        
-    }, []);
+        fetchExpenses();
 
-
-    useEffect(() => {
-
+        (async () => {
+            const dates = await getExpensesDates();
+            setExpensesDates(new Set(dates))
+        })();
+       
     }, [])
-    
     return (
         <>
-            <h1>Today's expense</h1>
-            {todayExpense.map((el) => (
-                <Expense key={el.expense_id} expense={el} />
+            {[...expensesDates].map(date => (
+                <div key={date}>
+                <p>{date}</p>
+                {expenses
+                    .filter(expense => expense.date && expense.date.includes(date))
+                    .map(expense => (
+                    <Expense key={expense.expense_id} expense={expense} />
+                    ))}
+                </div>
             ))}
         </>
     )
