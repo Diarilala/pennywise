@@ -1,9 +1,8 @@
 import { PrismaClient } from "@prisma/client";
 import express from 'express';
 const prisma = new PrismaClient();
+import { v4 as uuidv4 } from 'uuid';
 
-const app = express();
-const PORT = process.env.PORT ;
 export async function updateCategory(categoryId, userId, updatedCategory) {
     try {
         const { created_at, user_id, category_id, ...updatedData } = updatedCategory;
@@ -80,9 +79,9 @@ export async function deleteCategory(categoryId, userId) {
         }
     }
 }
-app.get("/api/categories", async (req, res) => {
+export const getUserCategories = async (req, res) => {
     try {
-        const { user_id } = req.query;
+        const  user_id = req.user.userId;
 
         if (!user_id) {
             return res.status(400).json({ error: 'Sorry, user ID is required' });
@@ -96,11 +95,31 @@ app.get("/api/categories", async (req, res) => {
                 name: 'asc'
             }
         });
-
-        res.json(categories);
+        console.log("categories:", categories);
+        
+        res.send(categories);
     } catch (error) {
         console.error('Error:', error);
         res.status(500).json({ error: 'Oh no, something went wrong' });
     }
-});
+};
 
+export const createCategory = async (req, res) => {
+    const userId = req.user.userId;
+    const {name} = req.body;
+    try {
+            const newCateory = await prisma.categories.create({
+                data: {
+                    category_id: uuidv4(),
+                    user_id: userId,
+                    name: name
+                }
+            })
+            console.log("Creation");
+            const data = newCateory.json();
+            res.send(data);
+            
+        } catch (error) {
+            console.error(error);
+        }
+}

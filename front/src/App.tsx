@@ -5,7 +5,7 @@ import LoginPage from './Components/LoginPage/LoginPage'
 import SignupPage from './Components/LoginPage/SignupPage'
 import Dashboard from './Components/Dashboard/Dashboard'
 import ExpenseSection from './Components/Expense/ExpenseSection'
-import Categories from './Components/Categories/Categories'
+import Categories from './Components/Categories/Categories.tsx'
 import Profile from './Components/Profile/Profile'
 
 function App() {
