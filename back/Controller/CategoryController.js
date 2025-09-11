@@ -1,5 +1,4 @@
 import { PrismaClient } from "@prisma/client";
-import express from "express";
 const prisma = new PrismaClient();
 import { v4 as uuidv4 } from 'uuid';
 
@@ -78,32 +77,7 @@ export async function deleteCategory(categoryId, userId) {
                 status: 500,
                 message: "Internal Server Error"
             }
-export const getUserCategories = async (req, res) => {
-
-    try {
-        const  user_id = req.user.userId;
-
-        if (!user_id) {
-            return res.status(400).json({ error: 'Sorry, user ID is required' });
-        }
-
-        const categories = await prisma.categories.findMany({
-            where: {
-                user_id: user_id
-            },
-            orderBy: {
-                name: 'asc'
-            }
-        });
-        console.log("categories:", categories);
-        
-        res.send(categories);
-    } catch (error) {
-        console.error('Error:', error);
-        res.status(500).json({ error: 'Oh no, something went wrong' });
-    }
-
-});
+}
 
 };
 

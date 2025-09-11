@@ -145,11 +145,15 @@ export async function loginUser(req, res) {
 
 export async function displayProfile(req, res) {
     try {
-        const user = await prisma.users.findUnique(
+        console.log("usererere", req.user.userId);
+        
+        const user = await prisma.users.findFirst(
             {
-                where: {user_id: req.user.user_id}
+                where: {user_id: req.user.userId}
             }
         );
+        console.log(user);
+        
         res.status(200).json({
             user
         })

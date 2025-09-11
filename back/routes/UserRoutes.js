@@ -9,8 +9,6 @@ router.use(cors());
 router.post('/auth/signup', registerUser);
 router.post('/auth/login', loginUser);
 router.use(authMiddleware);
-
-
 router.get('/user/profile', displayProfile);
 
 export default router;

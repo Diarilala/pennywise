@@ -1,13 +1,14 @@
-import { Link } from "react-router-dom";
+import SideBar from './SideBar.tsx';
+import SummarySection from './SummarySection.tsx';
 
 const Dashboard = () => {
-    return (
-        <>
-            <div className="w-1/4">
-                <Link to='/categories'>Categories</Link>
-            </div>
-            <div>
 
+    return (
+        <>  
+
+            <div className=' bg-amber-300 w-screen h-screen p-5 flex justify-between'>
+                <SideBar />
+                <SummarySection />
             </div>
         </>
     )
