@@ -1,10 +1,32 @@
 import { useState } from "react"
 
-const CategoryComponent = ({categoryId, userId, name}) => {
+interface CategoryComponentProps {
+    categoryId: string;
+    userId: string;
+    name: string;
+    onDelete: () => void;
+}
+
+export const CategoryComponent = ({categoryId, userId, name, onDelete}: CategoryComponentProps) => {
     const [deleteMode, setDeleteMode] = useState(false);
 
     const handleDelete = async () => {
-        
+        try{
+            const deletedCategory = await fetch(`http://localhost:3000/api/category/${categoryId}`, {
+                method: "DELETE", 
+                credentials: 'include',
+                headers: {'Content-Type' : 'application/json'}
+            });
+            console.log("k");
+            
+            await deletedCategory.json();
+            setDeleteMode(false);
+            onDelete();
+            console.log("deleteed");
+            
+        } catch (err) {
+            console.error(err);
+        }
     }
 
     return(
@@ -32,6 +54,8 @@ const CategoryComponent = ({categoryId, userId, name}) => {
                     <div className="flex gap-4">
                         <button
                         className="text-red-500"
+                        onClick={() => handleDelete()}
+
                         >Yes, delete</button>
                         <button
                             onClick={() => setDeleteMode(false)}
@@ -42,5 +66,3 @@ const CategoryComponent = ({categoryId, userId, name}) => {
         </div>
     )
 }
-
-export default CategoryComponent

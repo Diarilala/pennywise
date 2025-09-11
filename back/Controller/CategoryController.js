@@ -67,10 +67,7 @@ export async function deleteCategory(categoryId, userId) {
                 }
             }
         )
-        return {
-            status: 200,
-            message: "Deleted Successfully"
-        }
+        return deleteCategory
     }   catch (error) {
         console.error(error);
         return {
