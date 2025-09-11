@@ -82,11 +82,11 @@ export async function registerUser(req, res) {
 }
 
 export async function loginUser(req, res) {
-    console.log("Logging in ");
+    
     
     try {
         const {username, password} = req.body;
-        console.log("part1");
+    
         
         if (!username || !password) {
             return res.status(400).json({
@@ -103,7 +103,7 @@ export async function loginUser(req, res) {
                 error: 'Username or password is incorrect'
             })
         }
-        console.log("correct");
+    
         
         const token = jwt.sign({
             userId: user.user_id,
@@ -119,7 +119,6 @@ export async function loginUser(req, res) {
             sameSite: 'none',
             maxAge: 24 * 60 * 60 * 1000
         });
-        console.log("end");
         
       res.status(200).json({
             message: 'Login successful',

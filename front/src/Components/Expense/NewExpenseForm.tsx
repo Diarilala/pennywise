@@ -1,23 +1,6 @@
 import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom";
 
-const getCategories = async () => {
-    
-    try{
-        const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNTUwZTg0MDAtZTI5Yi00MWQ0LWE3MTYtNDQ2NjU1NDQwMDAwIiwiaWF0IjoxNzU3MzY2NTQ1fQ.XBG6M9ge7k5Py87pJ3i7bEbkaNLI5N2-fBdGpXFubdo"
-        const categories = await fetch('http://localhost:3000/api/categories?user_id=550e8400-e29b-41d4-a716-446655440000', {
-            method: "GET",
-            headers : {
-                "Authorization" : `Bearer ${token}`
-            }
-        });
-        const data = await categories.json();
-        return data;
-        
-    } catch(err) {
-        console.error(err);
-    }
-}
 
 interface Category{
     category_id :  string,
@@ -40,10 +23,15 @@ const NewExpenseForm = () => {
 
     useEffect(() => {
         (async () => {
-            const data = await getCategories();
-            setCategories(data);
-            if (data && data.length > 0) {
-                setCategoryId(data[0].category_id);
+            const data = await fetch('http://localhost:3000/api/category/', {
+                method: "GET",
+                credentials: 'include'
+            }
+            );
+            const dataa = await data.json()
+            setCategories(dataa);
+            if (dataa && dataa.length > 0) {
+                setCategoryId(dataa[0].category_id);
             }
         })()
     },[])
@@ -68,13 +56,13 @@ const NewExpenseForm = () => {
         try{
             console.log(newExpense);
             (async () => {
-                const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNTUwZTg0MDAtZTI5Yi00MWQ0LWE3MTYtNDQ2NjU1NDQwMDAwIiwiaWF0IjoxNzU3MzY2NTQ1fQ.XBG6M9ge7k5Py87pJ3i7bEbkaNLI5N2-fBdGpXFubdo"
+                
                 await fetch(`http://localhost:3000/api/expense`, {
                     method: "POST",
                     headers: {
-                        "Authorization" : `Bearer ${token}`,
                         "Content-Type": "application/json"
                     },
+                    credentials: 'include',
                     body: JSON.stringify(newExpense)
                 }).then(response => {
                     console.log("rerwerewr" +response);

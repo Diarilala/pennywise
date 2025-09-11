@@ -15,12 +15,10 @@ const EditExpense = () => {
 
     useEffect( () => {
         const getThisExpense = async () => {
-            const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNTUwZTg0MDAtZTI5Yi00MWQ0LWE3MTYtNDQ2NjU1NDQwMDAwIiwiaWF0IjoxNzU3MzY2NTQ1fQ.XBG6M9ge7k5Py87pJ3i7bEbkaNLI5N2-fBdGpXFubdo";
+            
             const thisExpense = await fetch(`http://localhost:3000/api/expense/${id}`, {
                 method: "GET",
-                headers: {
-                    "Authorization" : `Bearer ${token}`
-                }
+                credentials: 'include'
             })
             const data = await thisExpense.json();
             console.log(data);
@@ -48,13 +46,13 @@ const EditExpense = () => {
             endDate :  endDate + "T" + hours + ":00.000Z"
         }
         try{
-            const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNTUwZTg0MDAtZTI5Yi00MWQ0LWE3MTYtNDQ2NjU1NDQwMDAwIiwiaWF0IjoxNzU3MzY2NTQ1fQ.XBG6M9ge7k5Py87pJ3i7bEbkaNLI5N2-fBdGpXFubdo"
+            
             const response = await fetch(`http://localhost:3000/api/expense/${id}`, {
                 method: "PUT",
                 headers :{
-                    "Authorization" : `Bearer ${token}`,
                     "Content-Type": "application/json"
                 },
+                credentials: 'include',
                 body : JSON.stringify(updatedExpense)
             }) 
             const data = await response.json();
