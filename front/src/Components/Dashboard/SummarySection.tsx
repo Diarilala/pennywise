@@ -18,7 +18,7 @@ const SummarySection = () => {
                         <input value={endDate} onChange={(e) => setEndDate(e.target.value)} className="mx-4" type="date" name="end" id="end" />
                     </label>
                 </div>
-                <DashboardHeader />
+                <DashboardHeader startDate={startDate} endDate={endDate} />
         </div>
     )
 }
