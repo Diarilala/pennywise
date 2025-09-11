@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import DashboardHeader from "./DashboardHeader"
 import ExpensePieChart from "./ExpensePieChart";
+import ExpenseLineChart from "./ExpenseLineChart";
 
 const SummarySection = () => {
     const [endDate, setEndDate] = useState(new Date().toISOString().slice(0,10));
@@ -17,6 +18,7 @@ const SummarySection = () => {
                 </div>
                 <DashboardHeader startDate={startDate} endDate={endDate} />
                 <ExpensePieChart startDate={startDate} endDate={endDate} />
+                <ExpenseLineChart startDate={startDate} endDate={endDate} />
         </div>
     )
 }

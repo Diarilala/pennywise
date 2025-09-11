@@ -32,7 +32,7 @@ const ExpensePieChart: React.FC<ExpensePieChartProps> = ({ startDate, endDate })
     const [uniqueLabels, setUniqueLabels] = useState<string[]>([]);
     const [categories, setCategories] = useState<Category[]>([]);
 
-    // Fetch categories once
+    
     const fetchCategories = async () => {
         const res = await fetch('http://localhost:3000/api/category', {
             method: 'GET',
@@ -42,7 +42,7 @@ const ExpensePieChart: React.FC<ExpensePieChartProps> = ({ startDate, endDate })
         setCategories(data);
     };
 
-    // Fetch expenses and calculate sums
+    
     const fetchExpense = async () => {
         const startingDate = startDate + "T00:00:00.000Z";
         const endingDate = endDate + "T00:00:00.000Z";
@@ -78,7 +78,7 @@ const ExpensePieChart: React.FC<ExpensePieChartProps> = ({ startDate, endDate })
         fetchExpense();
     }, [startDate, endDate]);
 
-    // Map category_id to category name
+    
     const labelNames = uniqueLabels.map(
         (id) => categories.find((cat) => cat.category_id === id)?.name || id
     );
