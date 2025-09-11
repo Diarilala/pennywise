@@ -5,7 +5,7 @@ import authMiddleware from "../Middleware/authMiddleware.js";
 
 const router = express.Router();
 
-router.use(cors());
+
 router.post('/auth/signup', registerUser);
 router.post('/auth/login', loginUser);
 router.use(authMiddleware);

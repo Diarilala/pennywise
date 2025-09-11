@@ -4,14 +4,9 @@ import crypto from 'crypto';
 
 import { v4 as uuidv4 } from 'uuid';
 import bcrypt from 'bcrypt';
-const id = uuidv4();
 
 import jwt from 'jsonwebtoken';
 const prisma = new PrismaClient();
-
-function uuidv4() {
-    return crypto.randomUUID()
-}
 
 export async function registerUser(req, res) {
     try {

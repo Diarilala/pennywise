@@ -15,7 +15,7 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<LoginForm/>}/>
+        <Route path="/" element={<LoginPage/>}/>
         <Route path='/signup' element={<SignupPage />}></Route>
         <Route path='/dashboard' element={<Dashboard />}></Route>
         <Route path='/expense' element={<ExpenseSection />}></Route>
@@ -23,7 +23,6 @@ function App() {
         <Route path='/profile' element ={<Profile />}></Route>
       </Routes>
     </BrowserRouter>
-    </>
   )
 }
 

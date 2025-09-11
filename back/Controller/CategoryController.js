@@ -81,6 +81,27 @@ export async function deleteCategory(categoryId, userId) {
 
 };
 
+export const getUserCategories = async (req, res) => {
+    try {
+        const userId = req.user.userId;
+
+        if (!userId) {
+            return res.status(400).json({ error: 'User ID is required' });
+        }
+
+        const categories = await prisma.categories.findMany({
+            where: {
+                user_id: userId,
+            }
+        });
+
+        res.status(200).json(categories);
+    } catch (error) {
+        console.error('Error fetching user categories:', error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+};
+
 export const createCategory = async (req, res) => {
     const userId = req.user.userId;
     const {name} = req.body;

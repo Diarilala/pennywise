@@ -1,7 +1,11 @@
 import {registerUser} from "./UserRoutes.tsx";
 import {type JSX, useState} from "react";
 
-export default function Register({onLoginClick}):JSX.Element {
+interface RegisterProps {
+    onLoginClick: () => void;
+}
+
+export default function Register({onLoginClick}: RegisterProps): JSX.Element {
     const [newUser, setNewUser ] = useState({
         firstName: "",
         lastName: "",
