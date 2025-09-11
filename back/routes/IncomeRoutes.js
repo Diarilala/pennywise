@@ -1,18 +1,19 @@
 import express from 'express'
 import { getAllUserIncome, createUserIncome, getIncomeById, editIncome, deleteIncome } from '../Controller/incomeController.js';
 
-import { authenticateToken } from '../Middleware/authentMiddleware.js';
+import middleware from '../Middleware/authMiddleware.js';
 
 const router = express.Router();
 
-router.get("/" , authenticateToken ,  getAllUserIncome );
+router.use(middleware)
+router.get("/" ,  getAllUserIncome );
 
-router.post("/", authenticateToken, createUserIncome );
+router.post("/", createUserIncome );
 
-router.get("/:id", authenticateToken, getIncomeById);
+router.get("/:id", getIncomeById);
 
-router.put("/:id", authenticateToken, editIncome );
+router.put("/:id", editIncome );
 
-router.delete("/:id", authenticateToken, deleteIncome);
+router.delete("/:id", deleteIncome);
 
 export default router;

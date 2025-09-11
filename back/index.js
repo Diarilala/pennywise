@@ -1,19 +1,30 @@
 import express from 'express';
-import cors from 'cors';
+
+import cors from 'cors'
+
+import userRoutes from './routes/UserRoutes.js'
 import expenseRoutes from './routes/ExpenseRoutes.js'
 import receiptRoutes from './routes/ReceiptRoutes.js'
-import userRoutes from './routes/UserRoutes.js'
 import categoryRoutes from './routes/CategoryRoutes.js'
+import cookieParser from "cookie-parser";
+
 
 const app = express();
 
-app.use(cors());
+
+app.use(cors({
+    origin: "http://localhost:5173",  
+    credentials: true                 
+}));
+
+app.use(cookieParser());
+
 
 app.use(express.json());
 
-app.use('/expense', expenseRoutes );
+app.use('/api/expense', expenseRoutes )
 
-app.use('/receipt', receiptRoutes);
+app.use('/api/receipt', receiptRoutes);
 
 app.use('/api', userRoutes);
 
