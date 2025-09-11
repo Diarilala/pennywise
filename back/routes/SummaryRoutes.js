@@ -1,7 +1,7 @@
 import express from 'express'
-import middleware from '../Middleware/authMiddleware'
+import middleware from '../Middleware/authMiddleware.js';
 
-import { getSummary, getMonthlySummary, getSummaryAlert } from '../Controller/SummaryController';
+import { getSummary, getMonthlySummary, getSummaryAlert } from '../Controller/SummaryController.js';
 
 const router = express.Router();
 

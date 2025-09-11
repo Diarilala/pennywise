@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 const SideBar = () => {
     return (
         <div
-            className="w-1/6 h-3/4 bg-amber-50 border-1 flex flex-col items-center gap-3 rounded-2xl justify-between"
+            className="w-1/6  bg-amber-50 border-1 flex flex-col items-center gap-3 rounded-2xl justify-between"
         >
             <div className="flex flex-col gap-5 items-center p-5">
             <p className="text-5xl" >Pennywise</p>
