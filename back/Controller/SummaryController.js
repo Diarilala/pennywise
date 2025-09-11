@@ -5,7 +5,8 @@ const prisma = new PrismaClient();
 export const getSummary=   async (req, res) => {
     try {
         const { userId, startDate, endDate } = req.query;
-
+        console.log(req.query);
+        
         if (!userId) {
             return res.status(400).json({ error: "User ID is required" });
         }
@@ -14,8 +15,8 @@ export const getSummary=   async (req, res) => {
             user_id: userId,
             ...(startDate && endDate && {
                 date: {
-                    gte: new Date(startDate),
-                    lte: new Date(endDate)
+                    gte: startDate,
+                    lte: endDate
                 }
             })
         };
@@ -41,7 +42,12 @@ export const getSummary=   async (req, res) => {
                 take: 5
             })
         ]);
-
+        // console.log("incomes: ", incomes);
+        // console.log("expenses: ", expenses);
+        // console.log("recent ncomes: ", recentIncomes);
+        // console.log("recent exp: ", recentExpenses);
+        
+        
         const totalIncome = incomes._sum.amount || 0;
         const totalExpenses = expenses._sum.amount || 0;
 

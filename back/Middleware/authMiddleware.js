@@ -12,8 +12,8 @@ export const middleware = (req, res, next) => {
         }
         
         const decoded = jwt.verify(token, JWT_SECRET);
-        req.user = decoded;
-        console.log(req.user);
+        req.user = decoded;        
+        console.log('sersersers', req.user);
         
         next();
     } catch (error) {
