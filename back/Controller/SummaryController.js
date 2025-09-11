@@ -4,7 +4,7 @@ import express from 'express';
 const prisma = new PrismaClient();
 const app = express();
 
-app.get("/api/summary", async (req, res) => {
+export const getSummary=   async (req, res) => {
     try {
         const { userId, startDate, endDate } = req.query;
 
@@ -63,10 +63,10 @@ app.get("/api/summary", async (req, res) => {
         console.error("Summary error:", error);
         res.status(500).json({ error: "Internal server error" });
     }
-});
+};
 
 
-app.get("/api/summary/monthly", async (req, res) => {
+export const getMonthlySummary = async (req, res) => {
     try {
         const { userId, year, month } = req.query;
 
@@ -113,12 +113,12 @@ app.get("/api/summary/monthly", async (req, res) => {
         console.error("Monthly summary error:", error);
         res.status(500).json({ error: "Internal server error" });
     }
+}
 
 
 
 
-
-    app.get("/api/summary/alerts", async (req, res) => {
+export const getSummaryAlert =async (req, res) => {
         try {
             const { userId } = req.query;
             if (!userId) return res.status(400).json({ error: "User ID required" });
@@ -188,8 +188,4 @@ app.get("/api/summary/monthly", async (req, res) => {
         } catch (error) {
             res.status(500).json({ error: "Server error" });
         }
-    });
-
-
-
-});
+};
