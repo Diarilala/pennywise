@@ -7,13 +7,12 @@ const prisma = new PrismaClient();
 function uuidv4() {
     return crypto.randomUUID()
 }
-const id = uuidv4();
 
 export async function registerUser(req, res) {
     try {
         const {firstName, lastName, username, email, password} = req.body;
         if (!firstName || !lastName || !username || !password) {
-            res.status(400).json({
+            return res.status(400).json({
                 error: 'All fields are required',
             })
         }
@@ -38,7 +37,7 @@ export async function registerUser(req, res) {
 
         const newUser = await prisma.users.create({
             data: {
-                user_id: id,
+                user_id: uuidv4(),
                 first_name: firstName,
                 last_name: lastName,
                 username: username,
@@ -63,14 +62,14 @@ export async function registerUser(req, res) {
 
         const { password: _, ...userWithoutPassword } = newUser;
 
-        res.status(201).json({
+        return res.status(201).json({
             success: true,
             message: 'User created successfully',
             user: userWithoutPassword
         });
     }   catch (error) {
         console.error(error);
-        res.status(500).json({
+        return res.status(500).json({
             success: false,
             error: 'Internal Server Error',
         })
@@ -81,7 +80,7 @@ export async function loginUser(req, res) {
     try {
         const {username, password} = req.body;
         if (!username || !password) {
-            res.status(400).json({
+            return res.status(400).json({
                 error: 'All fields are required'
             });
         }
@@ -90,7 +89,7 @@ export async function loginUser(req, res) {
         });
 
         if (!user || !(await bcrypt.compare(password, user.password_hash))) {
-            res.status(401).json({
+            return res.status(401).json({
                 error: 'Username or password is incorrect'
             })
         }
@@ -104,12 +103,21 @@ export async function loginUser(req, res) {
         );
         res.cookie('token', token, {
             httpOnly: true,
-            secure: true,
+            secure: process.env.NODE_ENV === 'production',
             maxAge: 24 * 60 * 60 * 1000
         });
+
+        return res.json({
+            message: "Login successful",
+            user: {
+                userId: user.user_id,
+                username: user.username,
+                email: user.email
+            }
+        })
     } catch (err) {
         console.error(err);
-        res.status(500).json({
+        return res.status(500).json({
             error: 'Internal Server Error',
         });
     }
