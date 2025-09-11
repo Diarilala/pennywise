@@ -20,17 +20,17 @@ export const getAllUserExpense = async (req, res) => {
         }
 
         const whereClause = {
-            user_id: user.user
+            user_id: user.userId
         };
         if (start && end) {
             whereClause.date = {
-                lt: end,
-                gt: start
+                lte: end,
+                gte: start
             };
         } else if (start) {
             whereClause.date = { gte: start };
         } else if (end) {
-            whereClause.date = { lt: end };
+            whereClause.date = { lte: end };
         }
         if (type) {
             whereClause.type = type;
@@ -60,7 +60,7 @@ export const createUserExpense = async (req, res) => {
         const newExpense = await prisma.expenses.create({
             data: {
                 expense_id: randomUUID(),
-                user_id: user.user_id,
+                user_id: user.userId,
                 category_id: categoryId,
                 amount: amount,
                 date: date,

@@ -26,7 +26,6 @@ const DashboardHeader = ({startDate, endDate}: DashboardHeaderProps) => {
                 credentials: 'include',
             })
             const stats_data = await stats.json();
-            console.log(stats_data.totals);
             setTotalExpense(stats_data.totals.expenses);
             setTotalIncome(stats_data.totals.income);
             setRemaining(stats_data.totals.netBalance)

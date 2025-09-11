@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import SideBar from './SideBar.tsx';
 import SummarySection from './SummarySection.tsx';
 

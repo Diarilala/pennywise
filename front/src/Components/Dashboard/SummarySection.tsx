@@ -1,13 +1,10 @@
 import { useEffect, useState } from "react";
 import DashboardHeader from "./DashboardHeader"
+import ExpensePieChart from "./ExpensePieChart";
 
 const SummarySection = () => {
     const [endDate, setEndDate] = useState(new Date().toISOString().slice(0,10));
     const [startDate, setStartDate] = useState(new Date().toISOString().slice(0,7) + '-01');
-    useEffect(()=> {
-        console.log('endDate: ', endDate);
-        console.log('startDate: ', startDate);   
-    }, [])
     return (
         <div className=" w-3/4 rounded-2xl bg-white flex flex-col items-center p-5 gap-5">
                 <div className="border-1 p-3 rounded-xl">
@@ -19,6 +16,7 @@ const SummarySection = () => {
                     </label>
                 </div>
                 <DashboardHeader startDate={startDate} endDate={endDate} />
+                <ExpensePieChart startDate={startDate} endDate={endDate} />
         </div>
     )
 }
