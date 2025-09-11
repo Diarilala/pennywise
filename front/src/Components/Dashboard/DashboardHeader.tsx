@@ -34,10 +34,25 @@ const DashboardHeader = () => {
         getStats()
     }, [])
 
-    return <div className="bg-amber-200 w-[98%] flex justify-evenly">
-        <div className="w-1/4 border-1 p-3 rounded-2xl">{totalIncome}</div>
-        <div className="w-1/4 border-1 p-3 rounded-2xl">{totalExpense}</div>
-        <div className="w-1/4 border-1 p-3 rounded-2xl">{remaining}</div>
+    return <div className="w-[98%] flex justify-evenly">
+        <div className="w-1/4 border-1 p-3 rounded-2xl text-center">
+            <p className="text-2xl">Total income: </p>
+            <p className="text-3xl font-bold">
+                {totalIncome}
+            </p>
+        </div>
+        <div className="w-1/4 border-1 p-3 rounded-2xl text-center">
+            <p className="text-2xl"> Total expense: </p>
+            <p className="text-3xl font-bold">
+            {totalExpense}
+            </p>
+        </div>
+        <div className="w-1/4 border-1 p-3 rounded-2xl text-center">
+            <p className="text-2xl">Remaining:</p>
+            <p className="text-3xl font-bold">
+                {remaining}
+            </p>
+        </div>
     </div>
 }
 
