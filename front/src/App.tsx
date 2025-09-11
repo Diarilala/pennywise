@@ -1,4 +1,6 @@
 import './App.css'
+
+import LoginForm from './assets/Components/UserComponents/LoginForm';
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 
 import LoginPage from './Components/LoginPage/LoginPage'
@@ -11,10 +13,9 @@ import Profile from './Components/Profile/Profile'
 function App() {
 
   return (
-    <>
     <BrowserRouter>
       <Routes>
-        <Route path='/' element ={<LoginPage />}></Route>
+        <Route path="/" element={<LoginForm/>}/>
         <Route path='/signup' element={<SignupPage />}></Route>
         <Route path='/dashboard' element={<Dashboard />}></Route>
         <Route path='/expense' element={<ExpenseSection />}></Route>

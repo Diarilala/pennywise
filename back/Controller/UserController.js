@@ -1,22 +1,35 @@
 import { PrismaClient } from '@prisma/client';
+
+import crypto from 'crypto';
+
 import { v4 as uuidv4 } from 'uuid';
 import bcrypt from 'bcrypt';
 const id = uuidv4();
+
 import jwt from 'jsonwebtoken';
 const prisma = new PrismaClient();
+
+function uuidv4() {
+    return crypto.randomUUID()
+}
 
 export async function registerUser(req, res) {
     try {
         const {firstName, lastName, username, email, password} = req.body;
         if (!firstName || !lastName || !username || !password) {
-            res.status(400).json({
+            return res.status(400).json({
                 error: 'All fields are required',
             })
         }
 
         const existingUser = await prisma.users.findFirst({
             where: {
-                email: email
+
+                OR: [
+                    { email: email},
+                    {username: username}
+                ]
+
             }
         });
 
@@ -35,9 +48,10 @@ export async function registerUser(req, res) {
                 user_id: uuidv4(),
                 first_name: firstName,
                 last_name: lastName,
+                username: username,
                 email: email,
                 password_hash: hashedPassword,
-                username: username,
+
                 categories: {
                     create: []
                 },
@@ -54,10 +68,19 @@ export async function registerUser(req, res) {
                 incomes: true
             }
         });
-        res.send(newUser)
+
+        const { password: _, ...userWithoutPassword } = newUser;
+
+        return res.status(201).json({
+            success: true,
+            message: 'User created successfully',
+            user: userWithoutPassword
+        });
+
     }   catch (error) {
         console.error(error);
-        res.status(500).json({
+        return res.status(500).json({
+            success: false,
             error: 'Internal Server Error',
         })
     }
@@ -71,7 +94,7 @@ export async function loginUser(req, res) {
         console.log("part1");
         
         if (!username || !password) {
-            res.status(400).json({
+            return res.status(400).json({
                 error: 'All fields are required'
             });
         }
@@ -81,7 +104,7 @@ export async function loginUser(req, res) {
             //console.log(user);
             
         if (!user || !(await bcrypt.compare(password, user.password_hash))) {
-            res.status(401).json({
+            return res.status(401).json({
                 error: 'Username or password is incorrect'
             })
         }
@@ -110,10 +133,11 @@ export async function loginUser(req, res) {
                 username: user.username,
                 email: user.email
             }
+
         });
     } catch (err) {
         console.error(err);
-        res.status(500).json({
+        return res.status(500).json({
             error: 'Internal Server Error',
         });
     }
