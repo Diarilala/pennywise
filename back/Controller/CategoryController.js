@@ -108,7 +108,7 @@ export const createCategory = async (req, res) => {
     const userId = req.user.userId;
     const {name} = req.body;
     try {
-            const newCateory = await prisma.categories.create({
+            const newCategory = await prisma.categories.create({
                 data: {
                     category_id: uuidv4(),
                     user_id: userId,
@@ -116,8 +116,7 @@ export const createCategory = async (req, res) => {
                 }
             })
             console.log("Creation");
-            const data = newCateory.json();
-            res.send(data);
+            res.send(newCategory);
             
         } catch (error) {
             console.error(error);
