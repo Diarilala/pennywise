@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-
+import CategoryComponent from "./CategoryComponent.jsx";
 type Category = {
   category_id: string;
   name: string;
@@ -59,7 +59,7 @@ const Categories = () => {
       <p>Category section</p>
       <ul>
         {categories.map((c) => (
-          <li key={c.category_id}>{c.name}</li>
+          <CategoryComponent key={c.category_id} categoryId={c.category_id} userId = {c.user_id} name = {c.name}/>
         ))}
       </ul>
       <div>
