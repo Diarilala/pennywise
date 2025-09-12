@@ -31,7 +31,7 @@ async function getExpensesDates(){
     return dates;
 }
 
-const ExpenseRendering = () => {
+const ExpenseRendering = ({targetCategory}) => {
     const [expenses, setExpenses] = useState<ExpenseProp[]>([]);
     const [expensesDates, setExpensesDates] = useState<Set<string>>(new Set())
     useEffect(() => {
@@ -61,7 +61,7 @@ const ExpenseRendering = () => {
                 <div key={date} className="w-full">
                 <p className="underline p-0.5">{date}</p>
                 {expenses
-                    .filter(expense => expense.date && expense.date.includes(date))
+                    .filter(expense => expense.date && expense.date.includes(date) && (!targetCategory || expense.category_id == targetCategory ))
                     .map(expense => (
                     <Expense key={expense.expense_id} expense={expense} />
                     ))}

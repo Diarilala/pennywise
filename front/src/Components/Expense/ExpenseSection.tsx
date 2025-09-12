@@ -1,8 +1,30 @@
+import { useEffect, useState } from "react";
 import ExpenseRendering from "./ExpenseRendering";
 import { Link } from "react-router-dom";
 
+type Category = {
+  category_id: string;
+  name: string;
+  user_id: string;
+};
+
 const ExpenseSection = () => {
 
+    const [categories, setCategories] = useState<Category[]>();
+    const [currentCategory, setCurrentCategory] = useState('')
+
+
+    useEffect(() => {
+        (async () => {
+            const data = await fetch('http://localhost:3000/api/category/', {
+                method: "GET",
+                credentials: 'include'
+            }
+            );
+            const dataa = await data.json()
+            setCategories(dataa);
+        })()
+    },[])
 
     return (
         <div >
@@ -11,9 +33,16 @@ const ExpenseSection = () => {
                 <Link to="create">
                 New expense
                 </Link>
-                
                 </button>
-            <ExpenseRendering/>
+                <select value={currentCategory} onChange={(e)=>setCurrentCategory(e.target.value)} name="" id="">
+                    <option value="">All</option>
+                    {
+                        categories?.map((cat) => (
+                            <option key={cat.category_id} value={cat.category_id}>{cat.name}</option>
+                        ))
+                    }
+                </select>
+            <ExpenseRendering targetCategory={currentCategory}/>
         </div>
     )
 
