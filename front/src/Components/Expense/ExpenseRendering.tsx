@@ -31,7 +31,7 @@ async function getExpensesDates(){
     return dates;
 }
 
-const ExpenseRendering = ({targetCategory}) => {
+const ExpenseRendering = ({targetCategory}: { targetCategory?: string }) => {
     const [expenses, setExpenses] = useState<ExpenseProp[]>([]);
     const [expensesDates, setExpensesDates] = useState<Set<string>>(new Set())
     useEffect(() => {

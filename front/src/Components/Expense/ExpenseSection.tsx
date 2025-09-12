@@ -42,6 +42,7 @@ const ExpenseSection = () => {
                         ))
                     }
                 </select>
+                <Link to={'/dashboard'}>Come back to the dashboard</Link>
             <ExpenseRendering targetCategory={currentCategory}/>
         </div>
     )
