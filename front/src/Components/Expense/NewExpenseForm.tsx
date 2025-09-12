@@ -69,6 +69,7 @@ const NewExpenseForm = () => {
                     
                 })
             })()
+            navigate('/expense')
 
         } catch (err) {
             console.error(err);
