@@ -27,8 +27,8 @@ const ExpenseSection = () => {
     },[])
 
     return (
-        <div className="absolute inset-0 flex justify-center items-center">
-            <div className="flex flex-col gap-20">
+        <div className="flex justify-center items-center">
+            <div className="flex flex-col items-center gap-20">
                 <p className="text-5xl">Expenses</p>
             <button className="bg-amber-500 p-2 rounded-2xl">
                 <Link to="create">

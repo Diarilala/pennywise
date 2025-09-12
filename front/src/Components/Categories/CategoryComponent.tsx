@@ -26,7 +26,7 @@ export const CategoryComponent = ({ categoryId, name, onDelete }: CategoryCompon
         }
     };
 
-    // Placeholder for edit functionality
+    
     const handleEdit = async () => {
         setEdit(true);
     };

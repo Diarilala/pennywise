@@ -80,7 +80,7 @@ const ExpenseLineChart: React.FC<ExpenseLineChartProps> = ({ startDate, endDate 
     };
 
     return (
-        <div>
+        <div className='gap-20 flex flex-col justify-center'>
             <h1>Expenses per Day</h1>
             <Line data={data} />
         </div>

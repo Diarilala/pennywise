@@ -6,7 +6,7 @@ const Dashboard = () => {
     return (
         <>  
 
-            <div className='bg-white w-screen h-screen p-5 flex justify-between'>
+            <div className='bg-white w-screen h-screen p-5 flex justify-start gap-6'>
                 <SideBar />
                 <SummarySection />
             </div>

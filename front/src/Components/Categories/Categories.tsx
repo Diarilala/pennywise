@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { CategoryComponent } from "./CategoryComponent";
+import { useNavigate } from "react-router-dom";
 
 type Category = {
   category_id: string;
@@ -10,6 +11,9 @@ type Category = {
 const Categories = () => {
   const [newCategory, setNewCategory] = useState("");
   const [categories, setCategories] = useState<Category[]>([]);
+
+  const navigate = useNavigate()
+
 
   const fetchCategories = async () => {
     try {
@@ -60,6 +64,9 @@ const Categories = () => {
   return (
     <div className="absolute inset-0 max-w-xl mx-auto mt-10 p-6 bg-white rounded-2xl shadow-lg border border-gray-200">
       <h2 className="text-2xl font-bold text-gray-800 mb-6">Categories</h2>
+    <button
+      onClick={() => navigate('/dashboard')}
+    >Return to the dashboard</button>
       <form
         onSubmit={e => {
           e.preventDefault();

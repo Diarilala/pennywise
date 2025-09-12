@@ -99,7 +99,7 @@ const ExpensePieChart: React.FC<ExpensePieChartProps> = ({ startDate, endDate })
     };
 
     return (
-        <div>
+        <div className='flex flex-col justify-center items-center gap-7'>
             <h1>Expense Pie Chart</h1>
             <Pie data={data} />
         </div>
