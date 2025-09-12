@@ -30,9 +30,9 @@ const AddIncomeForm = ({ onSave, onCancel }: AddIncomeFormProps) => {
       const response = await fetch("http://localhost:3000/api/income", {
         method: "POST",
         headers: {
-          "Authorization": `Bearer ${token}`,
           "Content-Type": "application/json"
         },
+        credentials: 'include',
         body: JSON.stringify({
           amount: formData.amount,
           source: formData.source,

@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import IncomeList from "./IncomeList";
 import AddIncomeForm from "./AddIncomeForm";
+import { Link, useNavigate } from "react-router-dom";
 
 interface Income {
   income_id: string;
@@ -18,18 +19,21 @@ const IncomeSection = () => {
   const [loading, setLoading] = useState(true);
   const [showAddPanel, setShowAddPanel] = useState(false);
 
+  const navigate = useNavigate()
+
+
   useEffect(() => {
     fetchUserIncomes();
   }, []);
 
   const fetchUserIncomes = async () => {
     try {
-      const token = localStorage.getItem("authToken");
+      
       const response = await fetch("http://localhost:3000/api/income", {
         headers: { 
-          "Authorization": `Bearer ${token}`,
           "Content-Type": "application/json"
-        }
+        },
+        credentials: 'include'
       });
       
       if (!response.ok) {
@@ -73,7 +77,9 @@ const IncomeSection = () => {
           Add Income
         </button>
       </div>
-
+        <button>
+          <Link to='/dashboard'>Return to home page</Link>
+        </button>
       <IncomeList incomes={incomes} onUpdate={fetchUserIncomes} />
 
       {showAddPanel && (

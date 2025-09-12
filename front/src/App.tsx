@@ -10,6 +10,7 @@ import Categories from './Components/Categories/Categories.tsx'
 import Profile from './Components/Profile/Profile'
 import CreateExpenseSection from './Components/Expense/CreateExpenseSection.tsx';
 import EditExpense from './Components/Expense/EditExpense.tsx'
+import IncomeSection from './Components/Income/IncomeSection.tsx'
 
 function App() {
 
@@ -24,6 +25,7 @@ function App() {
         <Route path='/expense/:id' element={<EditExpense />}></Route>
         <Route path='/categories' element={<Categories />}></Route>
         <Route path='/profile' element ={<Profile />}></Route>
+        <Route path='/income' element={<IncomeSection />}></Route>
       </Routes>
     </BrowserRouter>
   )
