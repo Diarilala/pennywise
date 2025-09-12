@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import IncomeList from "./IncomeList";
 import AddIncomeForm from "./AddIncomeForm";
+import { Link, useNavigate } from "react-router-dom";
 
 interface Income {
   income_id: string;
@@ -17,6 +18,9 @@ const IncomeSection = () => {
   const [incomes, setIncomes] = useState<Income[]>([]);
   const [loading, setLoading] = useState(true);
   const [showAddPanel, setShowAddPanel] = useState(false);
+
+  const navigate = useNavigate()
+
 
   useEffect(() => {
     fetchUserIncomes();
@@ -73,7 +77,9 @@ const IncomeSection = () => {
           Add Income
         </button>
       </div>
-
+        <button>
+          <Link to='/dashboard'>Return to home page</Link>
+        </button>
       <IncomeList incomes={incomes} onUpdate={fetchUserIncomes} />
 
       {showAddPanel && (

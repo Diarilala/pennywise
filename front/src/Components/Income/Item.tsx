@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 interface Income {
   income_id: string;
@@ -21,6 +22,8 @@ const IncomeItem = ({ income, onUpdate }: IncomeItemProps) => {
   const [source, setSource] = useState(income.source);
   const [description, setDescription] = useState(income.description);
   const [date, setDate] = useState(income.created_at);
+
+  const navigate = useNavigate();
 
   const handleDelete = async () => {
     if (!confirm("Are you sure you want to delete this income record?")) return;
