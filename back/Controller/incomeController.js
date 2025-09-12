@@ -1,4 +1,5 @@
 import { PrismaClient } from '@prisma/client';
+import { randomUUID } from 'crypto';
 
 const prisma = new PrismaClient();
 
@@ -23,7 +24,7 @@ export const createIncome = async (req, res) => {
   try {
     const userId = req.user?.userId;
     if (!userId) return res.status(401).json({ message: 'Unauthorized' });
-
+console.log('rererrrerere');
     const { amount, source, description, frequency, received_date } = req.body;
 
     if (amount == null || Number.isNaN(Number(amount))) {
@@ -32,15 +33,16 @@ export const createIncome = async (req, res) => {
 
     const created = await prisma.incomes.create({
       data: {
+        income_id: randomUUID(),
         user_id: userId,
         amount: Number(amount),
         source: source || 'Other',
         description: description || '',
-        frequency: frequency || 'one-time',
-        received_date: received_date ? new Date(received_date) : new Date(),
+        date: new Date()
       },
     });
-
+    console.log('rererr');
+    
     res.status(201).json(created);
   } catch (err) {
     console.error('createIncome error:', err);

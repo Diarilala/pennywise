@@ -26,7 +26,8 @@ const IncomeItem = ({ income, onUpdate }: IncomeItemProps) => {
         method: "DELETE",
         headers: {
           "Authorization": `Bearer ${token}`
-        }
+        },
+        credentials:'include'
       });
       
       if (!response.ok) {
@@ -55,7 +56,7 @@ const IncomeItem = ({ income, onUpdate }: IncomeItemProps) => {
     <div className="px-6 py-4 flex justify-between items-center hover:bg-[#9370DB] hover:bg-opacity-5 transition-colors">
       <div className="flex-1">
         <div className="flex items-center">
-          <span className="font-semibold text-[#B8DB70]">${income.amount.toFixed(2)}</span>
+          <span className="font-semibold text-[#B8DB70]">${Number(income.amount).toFixed(2)}</span>
         </div>
         <div className="text-sm font-medium text-[#1E1E1E] mt-1">{income.source}</div>
         {income.description && (
