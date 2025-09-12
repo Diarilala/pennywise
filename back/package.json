@@ -1,7 +1,7 @@
 {
   "type": "module",
   "scripts": {
-    "dev": "nodemon --exec \"clear && node index.js\""
+    "dev": "nodemon --exec \"cls && node index.js\""
   },
   "dependencies": {
     "@prisma/client": "^6.15.0",
