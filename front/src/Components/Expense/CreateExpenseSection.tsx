@@ -3,11 +3,13 @@ import NewExpenseForm from "./NewExpenseForm";
 
 const CreateExpenseSection = () => {
     return (
-        <>
-        <p>You lwk create expenses here</p>
-        <NewExpenseForm />
-        <Link to="/">Come back nigga</Link>
-        </>
+        <div className="bg-amber-100 w-screen gap-5 flex flex-col items-center justify-center">
+
+            <NewExpenseForm />
+            <Link to="/expense">Come back to expenses list</Link>
+
+        </div>
+        
     )
 }
 

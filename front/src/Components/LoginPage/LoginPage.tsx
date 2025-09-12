@@ -47,7 +47,7 @@ const LoginPage = () => {
 
     return (
         <>
-            <div className="w-1/3 border-1 m-auto p-5 flex flex-col items-center" >
+            <div className="border-1 text-4xl absolute left-2/5 top-1/4 p-5 flex flex-col items-center" >
                 <p>Welcome to PennyWise !</p>
                 <label htmlFor=""> Username: 
                     <input required value={username} onChange={(e) => setUserName(e.target.value)} type="text" name="username" id="username"/>

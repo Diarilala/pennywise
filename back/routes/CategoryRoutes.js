@@ -1,7 +1,7 @@
 import express from 'express';
 import middleware from "../Middleware/authMiddleware.js";
 
-import {deleteCategory, updateCategory, createCategory, getUserCategories} from "../Controller/CategoryController.js";
+import {deleteCategory, updateCategory, createCategory, getUserCategories, getCategoryById} from "../Controller/CategoryController.js";
 
 
 const router = express.Router();
@@ -26,6 +26,8 @@ router.delete("/:id", async (req, res) => {
         req.user.user_id,
     )
 });
+
+router.get('/:id', getCategoryById)
 
 router.get("/",  getUserCategories)
 

@@ -28,14 +28,25 @@ const Expense = ({expense} : {expense : ExpenseProp}) => {
     }
 
     const [expenseDate, setExpenseDate] = useState("");
-    const [deleteMode, setDeleteMode] = useState(false)
+    const [deleteMode, setDeleteMode] = useState(false);
+    const [categoryName, setCategoryName] = useState("");
+
     useEffect(() => {
         setExpenseDate(expense.date.split("T")[0]);
+        const getCategoryName = async () => {
+            const res = await fetch(`http://localhost:3000/api/category/${expense.category_id}`, {
+                method: 'GET',
+                credentials: 'include'
+            });
+            const data = await res.json();
+            setCategoryName(data.name)
+        }
+        getCategoryName()
     }, [])
     return (
         <div className="border-1 p-2 w-1/4 flex justify-between items-center">
             <div className="flex flex-col gap-2">
-                <h1 className="font-medium">Categories ???</h1>
+                <h1 className="font-medium">{categoryName}</h1>
                 {expense.type == 'recurring' && <p>Recurring expense</p>}
                 <p className="font-light">{expenseDate} | {expense.description}</p>                
             </div> 

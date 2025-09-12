@@ -77,7 +77,7 @@ const NewExpenseForm = () => {
     }
 
     return (
-        <div className="border-1 w-1/2 flex flex-col items-center p-4 gap-2">
+        <div className="border-1  m-auto flex flex-col items-center p-4 gap-2">
             <p>Create a new Expense</p>
             <label htmlFor="description"> Description : 
                 <input onChange={(e) => setDescription(e.target.value)} id="description" value={description} name="description" type="text" />

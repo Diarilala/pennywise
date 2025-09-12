@@ -5,7 +5,7 @@ const ExpenseSection = () => {
 
 
     return (
-        <>
+        <div >
             <p className="text-5xl">Expenses</p>
             <button className="bg-amber-500 p-2 rounded-2xl">
                 <Link to="create">
@@ -14,7 +14,7 @@ const ExpenseSection = () => {
                 
                 </button>
             <ExpenseRendering/>
-        </>
+        </div>
     )
 
 }

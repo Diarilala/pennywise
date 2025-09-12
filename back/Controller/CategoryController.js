@@ -120,3 +120,19 @@ export const createCategory = async (req, res) => {
             console.error(error);
         }
 }
+
+export const getCategoryById = async (req, res) => {
+    const catId = req.params.id;
+
+    try{
+        const category = await prisma.categories.findUnique({
+            where: {
+                category_id: catId
+            }
+        })
+        res.status(200).json(category)
+    } catch(err) {
+        console.error(err);
+        res.status(500);
+    }
+}
