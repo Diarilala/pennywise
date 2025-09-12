@@ -1,6 +1,11 @@
 import { PrismaClient } from '@prisma/client';
+
 import crypto from 'crypto';
+
+import { v4 as uuidv4 } from 'uuid';
 import bcrypt from 'bcrypt';
+const id = uuidv4();
+
 import jwt from 'jsonwebtoken';
 const prisma = new PrismaClient();
 
@@ -19,10 +24,12 @@ export async function registerUser(req, res) {
 
         const existingUser = await prisma.users.findFirst({
             where: {
+
                 OR: [
                     { email: email},
                     {username: username}
                 ]
+
             }
         });
 
@@ -34,7 +41,8 @@ export async function registerUser(req, res) {
 
         const saltRounds = 10;
         const hashedPassword = await bcrypt.hash(password, saltRounds);
-
+        console.log(hashedPassword);
+        
         const newUser = await prisma.users.create({
             data: {
                 user_id: uuidv4(),
@@ -43,6 +51,7 @@ export async function registerUser(req, res) {
                 username: username,
                 email: email,
                 password_hash: hashedPassword,
+
                 categories: {
                     create: []
                 },
@@ -67,6 +76,7 @@ export async function registerUser(req, res) {
             message: 'User created successfully',
             user: userWithoutPassword
         });
+
     }   catch (error) {
         console.error(error);
         return res.status(500).json({
@@ -77,8 +87,12 @@ export async function registerUser(req, res) {
 }
 
 export async function loginUser(req, res) {
+    console.log("Logging in ");
+    
     try {
         const {username, password} = req.body;
+        console.log("part1");
+        
         if (!username || !password) {
             return res.status(400).json({
                 error: 'All fields are required'
@@ -87,12 +101,15 @@ export async function loginUser(req, res) {
         const user = await prisma.users.findUnique({
             where: {username: username}
         });
-
+            //console.log(user);
+            
         if (!user || !(await bcrypt.compare(password, user.password_hash))) {
             return res.status(401).json({
                 error: 'Username or password is incorrect'
             })
         }
+        console.log("correct");
+        
         const token = jwt.sign({
             userId: user.user_id,
             email: user.email,
@@ -103,18 +120,21 @@ export async function loginUser(req, res) {
         );
         res.cookie('token', token, {
             httpOnly: true,
-            secure: process.env.NODE_ENV === 'production',
+            secure: true,
+            sameSite: 'none',
             maxAge: 24 * 60 * 60 * 1000
         });
-
-        return res.json({
-            message: "Login successful",
+        console.log("end");
+        
+      res.status(200).json({
+            message: 'Login successful',
             user: {
                 userId: user.user_id,
                 username: user.username,
                 email: user.email
             }
-        })
+
+        });
     } catch (err) {
         console.error(err);
         return res.status(500).json({
