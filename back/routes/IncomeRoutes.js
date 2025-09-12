@@ -1,19 +1,25 @@
-import express from 'express'
-import { getAllUserIncome, createUserIncome, getIncomeById, editIncome, deleteIncome } from '../Controller/incomeController.js';
-
+import express from 'express';
 import middleware from '../Middleware/authMiddleware.js';
+import {
+  getUserIncomes,
+  createIncome,
+  updateIncome,
+  deleteIncome
+} from '../Controller/incomeController.js';
 
 const router = express.Router();
 
-router.use(middleware)
-router.get("/" ,  getAllUserIncome );
+router.use(middleware);
 
-router.post("/", createUserIncome );
 
-router.get("/:id", getIncomeById);
+router.get('/', getUserIncomes);
 
-router.put("/:id", editIncome );
 
-router.delete("/:id", deleteIncome);
+router.post('/', createIncome);
+
+
+router.put('/:id', updateIncome);
+
+router.delete('/:id', deleteIncome);
 
 export default router;

@@ -11,20 +11,25 @@ router.use(middleware)
 router.put("/:id",  async (req, res) => {
     const result = await updateCategory(
         req.params.id,
-        req.user.user_id,
+        req.user.userId, // was user_id
         req.body
     );
     res.status(result.status).json({
         success: result.success,
         error: result.error,
-    })
+        updatedCategory: result.updatedCategory
+    });
 });
 
 router.delete("/:id", async (req, res) => {
     const result = await deleteCategory(
         req.params.id,
-        req.user.user_id,
-    )
+        req.user.userId, 
+    );
+    res.status(result.status).json({
+        success: result.success,
+        error: result.error
+    });
 });
 
 router.get('/:id', getCategoryById)
