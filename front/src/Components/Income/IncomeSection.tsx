@@ -24,12 +24,12 @@ const IncomeSection = () => {
 
   const fetchUserIncomes = async () => {
     try {
-      const token = localStorage.getItem("authToken");
+      
       const response = await fetch("http://localhost:3000/api/income", {
         headers: { 
-          "Authorization": `Bearer ${token}`,
           "Content-Type": "application/json"
-        }
+        },
+        credentials: 'include'
       });
       
       if (!response.ok) {
