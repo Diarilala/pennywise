@@ -15,8 +15,7 @@ export default function Register({onLoginClick}):JSX.Element {
 
     const handleRegisterUser = async () => {
         console.log("Button clicked")
-        setMessage(null);
-        setError(null);
+  
         try {
             await registerUser(newUser);
             setNewUser({firstName: "", lastName: "", username: "", email: "", password: ""});
@@ -42,7 +41,7 @@ export default function Register({onLoginClick}):JSX.Element {
 
             <div className="rounded-2xl h-[50%] w-[80%] flex flex-col items-center justify-around font-sans">
                 <div className="flex gap-20">
-                    <div className="flex flex-col w-[250px] h-[70px] bg-white rounded-[10px]">
+                    <div className="flex flex-col w-[250px] h-[70px] bg-white rounded-[10px] items-center justify-center">
                         <p className="text-2xl">First Name</p>
                         <input 
                         className="placeholder:text-center flex justify-center items-center text-center h-10 font-sans rounded-[10px]"
@@ -53,7 +52,7 @@ export default function Register({onLoginClick}):JSX.Element {
                         required
                         />
                     </div>
-                    <div className="flex flex-col w-[250px] h-[70px] bg-white rounded-[10px]">
+                    <div className="flex flex-col w-[250px] h-[70px] bg-white rounded-[10px] items-center justify-center">
                         <p className="text-2xl">Last Name</p>
                         <input 
                         className="placeholder:text-center flex justify-center items-center text-center h-10 font-sans rounded-[10px]"
@@ -66,7 +65,7 @@ export default function Register({onLoginClick}):JSX.Element {
                     </div>
                 </div>
                 <div className="flex gap-20">
-                    <div className="flex flex-col w-[250px] h-[70px] bg-white rounded-[10px]">
+                    <div className="flex flex-col w-[250px] h-[70px] bg-white rounded-[10px] items-center justify-center">
                     <p className="text-2xl">Username</p>
                     <input 
                     className="placeholder:text-center flex justify-center items-center text-center h-10 font-sans rounded-[10px]"
@@ -77,7 +76,7 @@ export default function Register({onLoginClick}):JSX.Element {
                     required
                     />
                     </div>
-                    <div className="flex flex-col w-[250px] h-[70px] bg-white rounded-[10px]">
+                    <div className="flex flex-col w-[250px] h-[70px] bg-white rounded-[10px] items-center justify-center">
                     <p className="text-2xl">Email</p>
                     <input
                     className="placeholder:text-center flex justify-center items-center text-center h-10 font-sans rounded-[10px]"
@@ -89,7 +88,7 @@ export default function Register({onLoginClick}):JSX.Element {
                     />
                     </div>
                 </div>
-                <div className="flex flex-col w-[250px] h-[70px] bg-white rounded-[10px]">
+                <div className="flex flex-col w-[250px] h-[70px] bg-white rounded-[10px] items-center justify-center">
                     <p className="text-2xl">Password</p>
                     <input
                     className="placeholder:text-center flex justify-center items-center text-center h-10 font-sans rounded-[10px]"
@@ -100,14 +99,9 @@ export default function Register({onLoginClick}):JSX.Element {
                     required
                     />
                 </div>
-            </div>
-            <button
-            onClick={handleRegisterUser}>
-                Register
-            </button>
-            
+            </div>   
             <div
-            onClick={handleRegisterUser}
+            onClick={handleRegisterUser} 
             className="font-sans text-white w-[140px] h-[40px] flex justify-center items-center bg-black rounded-[10px] hover:bg-gray-800 ease-in-out duration-150 cursor-pointer">Register</div>
         </div>
         </div>

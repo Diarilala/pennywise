@@ -40,7 +40,7 @@ export default function Login({onSignUpClick}):JSX.Element {
 
             <div className="rounded-2xl h-[50%] w-[80%] flex flex-col items-center justify-around font-sans">
                 <div className="flex gap-20 flex-col">
-                    <div className="flex flex-col w-[450px] h-[70px] bg-white rounded-[10px]">
+                    <div className="flex flex-col w-[450px] h-[70px] bg-white rounded-[10px] items-center justify-center">
                         <p className="text-2xl">First Name</p>
                         <input 
                         className="placeholder:text-center flex justify-center items-center text-center h-10 font-sans rounded-[10px]"
@@ -51,7 +51,7 @@ export default function Login({onSignUpClick}):JSX.Element {
                         required
                         />
                     </div>
-                    <div className="flex flex-col w-[450px] h-[70px] bg-white rounded-[10px]">
+                    <div className="flex flex-col w-[450px] h-[70px] bg-white rounded-[10px] items-center justify-center">
                         <p className="text-2xl">Last Name</p>
                         <input 
                         className="placeholder:text-center flex justify-center items-center text-center h-10 font-sans rounded-[10px]"

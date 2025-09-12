@@ -16,14 +16,14 @@ export default function LoginForm() {
               onLoginClick={() => setActiveScreen("login")}
               />
             </div>
-            <div className={`absolute transition-opacity duration-700 ${
+            <div className={`absolute inset-0 flex items-center justify-center transition-opacity duration-700 ${
               activeScreen === "index" || activeScreen === "login" ? "opacity-0 pointer-events-none" : "opacity-100"
             }`}>
               <Register
               onLoginClick={() => setActiveScreen("login")}
                 />
             </div>
-            <div className={`absolute transition-opacity duration-700 ${
+            <div className={`absolute inset-0 flex items-center justify-center transition-opacity duration-700 ${
                 activeScreen === "index" || activeScreen ==="register" ? "opacity-0 pointer-events-none" : "opacity-100"
             }`}>
               <Login 

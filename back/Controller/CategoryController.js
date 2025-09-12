@@ -78,6 +78,8 @@ export async function deleteCategory(categoryId, userId) {
                 status: 500,
                 message: "Internal Server Error"
             }
+        }
+}
 export const getUserCategories = async (req, res) => {
 
     try {
@@ -102,8 +104,6 @@ export const getUserCategories = async (req, res) => {
         console.error('Error:', error);
         res.status(500).json({ error: 'Oh no, something went wrong' });
     }
-
-});
 
 };
 

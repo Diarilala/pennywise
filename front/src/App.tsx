@@ -23,7 +23,6 @@ function App() {
         <Route path='/profile' element ={<Profile />}></Route>
       </Routes>
     </BrowserRouter>
-    </>
   )
 }
 
