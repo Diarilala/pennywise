@@ -57,7 +57,7 @@ const EditExpense = () => {
             }) 
             const data = await response.json();
             console.log(data);
-            navigate("/")
+            navigate("/expense")
             } catch(err){
             console.error(err);
             

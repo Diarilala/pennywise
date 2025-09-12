@@ -52,7 +52,7 @@ const Expense = ({expense} : {expense : ExpenseProp}) => {
             </div> 
             <div>
                 <p className="font-bold">-{expense.amount}</p>
-                <Link to={`${expense.expense_id}/edit`}>Edit</Link>
+                <Link to={`/expense/${expense.expense_id}`}>Edit</Link>
                 <button onClick={() => setDeleteMode(true)}>Delete</button>
                 {
                     deleteMode && (

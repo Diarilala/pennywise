@@ -9,6 +9,7 @@ import ExpenseSection from './Components/Expense/ExpenseSection'
 import Categories from './Components/Categories/Categories.tsx'
 import Profile from './Components/Profile/Profile'
 import CreateExpenseSection from './Components/Expense/CreateExpenseSection.tsx';
+import EditExpense from './Components/Expense/EditExpense.tsx'
 
 function App() {
 
@@ -20,6 +21,7 @@ function App() {
         <Route path='/dashboard' element={<Dashboard />}></Route>
         <Route path='/expense' element={<ExpenseSection />}></Route>
         <Route path='/expense/create' element={<CreateExpenseSection />}></Route>
+        <Route path='/expense/:id' element={<EditExpense />}></Route>
         <Route path='/categories' element={<Categories />}></Route>
         <Route path='/profile' element ={<Profile />}></Route>
       </Routes>
