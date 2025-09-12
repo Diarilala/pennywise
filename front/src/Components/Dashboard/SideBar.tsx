@@ -2,10 +2,10 @@ import { Link } from "react-router-dom";
 
 const SideBar = () => {
     return (
-        <aside className="w-1/6 outline-gray-200 outline-1 bg-gray-100 shadow-xl shadow-gray-400 backdrop-blur-lg border border-white/40 flex flex-col justify-between rounded-xl">
+        <aside className=" outline-gray-200 outline-1 bg-gray-100 shadow-xl shadow-gray-400 backdrop-blur-lg border border-white/40 flex flex-col justify-between rounded-xl">
             <div className="flex flex-col justify-start gap-10 p-5">
                 <div className="flex items-center gap-4 justify-start w-full">
-                <h1 className="text-ml font-extrabold text-purple-700 tracking-wide mb-8 drop-shadow-lg flex items-center gap-5" style={{ fontFamily: "Italiana, serif" }}>
+                <h1 className="text-ml font-extrabold text-purple-700 mr-5 tracking-wide mb-8 drop-shadow-lg flex items-center gap-2 px-5" style={{ fontFamily: "Italiana, serif" }}>
                     <img src="logoblack.png" alt="" className="h-6"/>
                     <p className="text-2xl">Pennywise</p>
                 </h1>

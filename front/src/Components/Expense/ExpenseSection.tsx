@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import ExpenseRendering from "./ExpenseRendering";
 import { Link } from "react-router-dom";
+import SideBar from "../Dashboard/SideBar";
 
 type Category = {
   category_id: string;
@@ -27,8 +28,12 @@ const ExpenseSection = () => {
     },[])
 
     return (
-        <div className="flex justify-center items-center">
-            <div className="flex flex-col items-center gap-20">
+        <div className="flex justify-start  absolute inset-0   items-center">
+            <div className="h-screen flex p-5">
+             <SideBar />
+             </div>
+            <div className="gap-12 w-full overflow-y-scroll outline-1 rounded-2xl outline-gray-300 bg-gray-100 flex flex-col items-center p-5 drop-shadow-xl shadow-2xl shadow-gray-400">
+                <div className="flex flex-col gap-11 shadow-lg shadow-gray-400 p-5 rounded-2xl">
                 <p className="text-5xl">Expenses</p>
             <button className="bg-amber-500 p-2 rounded-2xl">
                 <Link to="create">
@@ -45,6 +50,7 @@ const ExpenseSection = () => {
                 </select>
                 <Link to={'/dashboard'}>Come back to the dashboard</Link>
             <ExpenseRendering targetCategory={currentCategory}/>
+            </div>
             </div>
             
         </div>

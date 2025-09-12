@@ -45,6 +45,7 @@ const Expense = ({expense} : {expense : ExpenseProp}) => {
 
     return (
         <div className="bg-gray-50 border border-gray-300 rounded-2xl p-5 w-full flex justify-between items-center shadow-lg mb-4 transition hover:shadow-2xl">
+            
             <div className="flex flex-col gap-1">
                 <h1 className="font-semibold text-gray-700">{categoryName}</h1>
                 {expense.type === 'recurring' && <p className="text-xs text-gray-400">Recurring expense</p>}

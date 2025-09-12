@@ -58,13 +58,15 @@ const ExpenseRendering = ({targetCategory}: { targetCategory?: string }) => {
     return (
         <>
             {[...expensesDates].map(date => (
-                <div key={date} className="w-full">
+                <div>
                 <p className="underline p-0.5">{date}</p>
+                <div key={date} className="w-full grid grid-cols-4  gap-2">
                 {expenses
                     .filter(expense => expense.date && expense.date.includes(date) && (!targetCategory || expense.category_id == targetCategory ))
                     .map(expense => (
                     <Expense key={expense.expense_id} expense={expense} />
                     ))}
+                </div>
                 </div>
             ))}
         </>

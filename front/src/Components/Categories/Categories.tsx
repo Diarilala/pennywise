@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { CategoryComponent } from "./CategoryComponent";
 import { useNavigate } from "react-router-dom";
+import SideBar from "../Dashboard/SideBar";
 
 type Category = {
   category_id: string;
@@ -62,7 +63,11 @@ const Categories = () => {
   }, [categories.length]);
 
   return (
-    <div className="absolute inset-0 max-w-xl mx-auto mt-10 p-6 bg-white rounded-2xl shadow-lg border border-gray-200">
+    <div className="flex justify-start  absolute inset-0   items-center ">
+      <div className="h-screen flex p-5">
+      <SideBar />
+      </div>
+      <div className="border border-gray-200 p-6">
       <h2 className="text-2xl font-bold text-gray-800 mb-6">Categories</h2>
     <button
       onClick={() => navigate('/dashboard')}
@@ -102,6 +107,7 @@ const Categories = () => {
           </li>
         ))}
       </ul>
+      </div>
     </div>
   );
 };

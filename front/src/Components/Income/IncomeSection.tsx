@@ -64,7 +64,7 @@ const IncomeSection = () => {
   }
 
   return (
-    <div className="max-w-6xl mx-auto px-4 py-6 bg-[#FFFFFF] min-h-screen">
+    <div className="max-w-6xl absolute inset-0 mx-auto w-[700px] py-6 bg-[#FFFFFF] min-h-screen">
       <div className="flex justify-between items-center mb-8">
         <h1 className="text-3xl font-bold text-[#1E1E1E]">Income</h1>
         <button
