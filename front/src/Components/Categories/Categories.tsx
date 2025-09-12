@@ -53,17 +53,12 @@ const Categories = () => {
   }
 
   useEffect(() => {
-    console.log("categories:", categories);
-  }, [categories]);
+    fetchCategories()
+  }, [categories.length]);
 
   return (
     <>
       <p>Category section</p>
-      <ul>
-        {categories.map((c) => (
-          <CategoryComponent onDelete={fetchCategories} key={c.category_id} categoryId={c.category_id} userId = {c.user_id} name = {c.name}/>
-        ))}
-      </ul>
       <div>
         <label htmlFor="categoryName">
           Name:
@@ -81,6 +76,11 @@ const Categories = () => {
           create category
         </button>
       </div>
+      <ul>
+        {categories.map((c) => (
+          <CategoryComponent onDelete={fetchCategories} key={c.category_id} categoryId={c.category_id} userId = {c.user_id} name = {c.name}/>
+        ))}
+      </ul>
     </>
   );
 };

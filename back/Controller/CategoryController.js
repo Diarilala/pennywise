@@ -20,15 +20,13 @@ export async function updateCategory(categoryId, userId, updatedCategory) {
                 message: "Category not found"
             }
         }
-        const updatedCategory = await prisma.categories.update(
+        const freshlyUpdatedCategory = await prisma.categories.update(
             {
                 where: {
                     category_id: categoryId,
                 },
                 data: {
-                    user_id: userId,
-                    category_id: categoryId,
-                    category: updatedData
+                    name: updatedCategory.name
                 }
             }
         );

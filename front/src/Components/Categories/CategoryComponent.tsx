@@ -9,6 +9,7 @@ interface CategoryComponentProps {
 
 export const CategoryComponent = ({categoryId, userId, name, onDelete}: CategoryComponentProps) => {
     const [deleteMode, setDeleteMode] = useState(false);
+    const [editMode, setEdit] = useState(false);
 
     const handleDelete = async () => {
         try{
@@ -29,6 +30,10 @@ export const CategoryComponent = ({categoryId, userId, name, onDelete}: Category
         }
     }
 
+    const handleEdit = async () => {
+        
+    }
+
     return(
         <div className="flex w-1/4 justify-between border-1 p-5">
             <div>{name}</div>
@@ -37,6 +42,7 @@ export const CategoryComponent = ({categoryId, userId, name, onDelete}: Category
                     <div className="flex gap-3">
                         <button 
                         className=""
+                        onClick={handleEdit}
                         >
                             Edit
                             </button>
