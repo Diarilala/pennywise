@@ -65,7 +65,7 @@ export default function Login({onSignUpClick}):JSX.Element {
                 </div>
             </div>
             
-            <div className="font-sans text-white w-[140px] h-[40px] flex justify-center items-center bg-black rounded-[10px] hover:bg-gray-800 ease-in-out duration-150 cursor-pointer">Register</div>
+            <div className="font-sans text-white w-[140px] h-[40px] flex justify-center items-center bg-black rounded-[10px] hover:bg-gray-800 ease-in-out duration-150 cursor-pointer">Log in</div>
         </div>
         </div>
     )

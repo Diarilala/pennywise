@@ -7,23 +7,24 @@ export default function Register({onLoginClick}):JSX.Element {
         lastName: "",
         username: "",
         email: "",
-        password: "",
-        confirmPassword: "",
+        password: "",  
     });
+
+    const  [message, setMessage] = useState<string | null>(null);
+    const [error, setError] = useState<string | null>(null);
 
     const handleRegisterUser = async () => {
         console.log("Button clicked")
+        setMessage(null);
+        setError(null);
         try {
             await registerUser(newUser);
-            setNewUser({firstName: "", lastName: "", username: "", email: "", password: "", confirmPassword: ""});
-            return {
-                status: 200,
-                message: 'success'
-            }
+            setNewUser({firstName: "", lastName: "", username: "", email: "", password: ""});
+            setMessage("Registration successful");
             
         } catch (error: any) {
             const backenderror = error.response?.data?.error;
-            return backenderror
+            setError(backenderror);
         }
     }
 
@@ -100,8 +101,14 @@ export default function Register({onLoginClick}):JSX.Element {
                     />
                 </div>
             </div>
+            <button
+            onClick={handleRegisterUser}>
+                Register
+            </button>
             
-            <div className="font-sans text-white w-[140px] h-[40px] flex justify-center items-center bg-black rounded-[10px] hover:bg-gray-800 ease-in-out duration-150 cursor-pointer">Register</div>
+            <div
+            onClick={handleRegisterUser}
+            className="font-sans text-white w-[140px] h-[40px] flex justify-center items-center bg-black rounded-[10px] hover:bg-gray-800 ease-in-out duration-150 cursor-pointer">Register</div>
         </div>
         </div>
     )
