@@ -28,8 +28,8 @@ const ExpenseSection = () => {
     },[])
 
     return (
-        <div className="flex justify-start  absolute inset-0   items-center">
-            <div className="h-screen flex p-5">
+        <div className="flex justify-start   inset-0   items-start">
+            <div className="sticky top-0 h-screen flex p-5">
              <SideBar />
              </div>
             <div className="gap-12 w-full overflow-y-scroll outline-1 rounded-2xl outline-gray-300 bg-gray-100 flex flex-col items-center p-5 drop-shadow-xl shadow-2xl shadow-gray-400">
