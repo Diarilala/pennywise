@@ -62,7 +62,7 @@ export const updateIncome = async (req, res) => {
       return res.status(404).json({ message: 'Income not found' });
     }
 
-    const { amount, source, description, frequency, received_date } = req.body;
+    const { amount, source, description, frequency, date } = req.body;
 
     const updated = await prisma.incomes.update({
       where: { income_id: incomeId },
@@ -70,8 +70,7 @@ export const updateIncome = async (req, res) => {
         ...(amount != null ? { amount: Number(amount) } : {}),
         ...(source != null ? { source } : {}),
         ...(description != null ? { description } : {}),
-        ...(frequency != null ? { frequency } : {}),
-        ...(received_date != null ? { received_date: new Date(received_date) } : {}),
+        ...(date != null ? { date: new Date(date).toISOString() } : {}),
       },
     });
 
