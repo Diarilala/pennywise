@@ -27,8 +27,9 @@ const ExpenseSection = () => {
     },[])
 
     return (
-        <div >
-            <p className="text-5xl">Expenses</p>
+        <div className="absolute inset-0 flex justify-center items-center">
+            <div className="flex flex-col gap-20">
+                <p className="text-5xl">Expenses</p>
             <button className="bg-amber-500 p-2 rounded-2xl">
                 <Link to="create">
                 New expense
@@ -44,6 +45,8 @@ const ExpenseSection = () => {
                 </select>
                 <Link to={'/dashboard'}>Come back to the dashboard</Link>
             <ExpenseRendering targetCategory={currentCategory}/>
+            </div>
+            
         </div>
     )
 

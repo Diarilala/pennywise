@@ -69,7 +69,7 @@ const IncomeSection = () => {
         <h1 className="text-3xl font-bold text-[#1E1E1E]">Income</h1>
         <button
           onClick={() => setShowAddPanel(true)}
-          className="bg-[#9370DB] hover:bg-[#8360CB] text-[#FFFFFF] px-4 py-2 rounded-lg flex items-center transition-colors"
+          className="bg-[#9370DB] hover:bg-[#8360CB] text-black px-4 py-2 rounded-lg flex items-center transition-colors"
         >
           <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />

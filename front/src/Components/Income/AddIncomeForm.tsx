@@ -60,7 +60,7 @@ const AddIncomeForm = ({ onSave, onCancel }: AddIncomeFormProps) => {
       <div className="bg-[#FFFFFF] w-full max-w-md rounded-lg shadow-xl border border-[#9370DB]">
         <div className="p-6 border-b border-[#9370DB]">
           <div className="flex justify-between items-center">
-            <h2 className="text-xl font-semibold text-[#1E1E1E]">Add New Income</h2>
+            <h2 className="text-xl font-semibold text-black">Add New Income</h2>
             <button 
               onClick={onCancel}
               className="text-[#9370DB] hover:text-[#8360CB] transition-colors"
